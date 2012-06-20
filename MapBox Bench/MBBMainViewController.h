@@ -1,5 +1,5 @@
 //
-//  MBBViewController.h
+//  MBBMainViewController.h
 //  MapBox Bench
 //
 //  Created by Justin Miller on 6/20/12.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MBBViewController : UIViewController
+@interface MBBMainViewController : UIViewController
 
 @end

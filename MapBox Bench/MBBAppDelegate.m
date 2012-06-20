@@ -8,7 +8,7 @@
 
 #import "MBBAppDelegate.h"
 
-#import "MBBViewController.h"
+#import "MBBMainViewController.h"
 
 @implementation MBBAppDelegate
 
@@ -18,7 +18,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[MBBViewController alloc] initWithNibName:nil bundle:nil]];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[MBBMainViewController alloc] initWithNibName:nil bundle:nil]];
 
     [self.window makeKeyAndVisible];
     

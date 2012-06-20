@@ -13,7 +13,7 @@
 		DDB42D8E15927EA50046ED41 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDB42D8C15927EA50046ED41 /* InfoPlist.strings */; };
 		DDB42D9015927EA50046ED41 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB42D8F15927EA50046ED41 /* main.m */; };
 		DDB42D9415927EA50046ED41 /* MBBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB42D9315927EA50046ED41 /* MBBAppDelegate.m */; };
-		DDB42D9715927EA50046ED41 /* MBBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB42D9615927EA50046ED41 /* MBBViewController.m */; };
+		DDB42D9715927EA50046ED41 /* MBBMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB42D9615927EA50046ED41 /* MBBMainViewController.m */; };
 		DDB42DBA159281A00046ED41 /* libMapView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42DB4159281430046ED41 /* libMapView.a */; };
 		DDB42DBC159281CE0046ED41 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42DBB159281CE0046ED41 /* libsqlite3.dylib */; };
 		DDB42DBE159281D40046ED41 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42DBD159281D40046ED41 /* libz.dylib */; };
@@ -56,8 +56,8 @@
 		DDB42D9115927EA50046ED41 /* MapBox Bench-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MapBox Bench-Prefix.pch"; sourceTree = "<group>"; };
 		DDB42D9215927EA50046ED41 /* MBBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBBAppDelegate.h; sourceTree = "<group>"; };
 		DDB42D9315927EA50046ED41 /* MBBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBBAppDelegate.m; sourceTree = "<group>"; };
-		DDB42D9515927EA50046ED41 /* MBBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBBViewController.h; sourceTree = "<group>"; };
-		DDB42D9615927EA50046ED41 /* MBBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBBViewController.m; sourceTree = "<group>"; };
+		DDB42D9515927EA50046ED41 /* MBBMainViewController.h */ = {isa = PBXFileReference; path = MBBMainViewController.h; sourceTree = "<group>"; };
+		DDB42D9615927EA50046ED41 /* MBBMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBBMainViewController.m; sourceTree = "<group>"; };
 		DDB42DA4159281420046ED41 /* MapView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MapView.xcodeproj; path = "MapBox-iOS-SDK/MapView/MapView.xcodeproj"; sourceTree = "<group>"; };
 		DDB42DBB159281CE0046ED41 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		DDB42DBD159281D40046ED41 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -121,8 +121,8 @@
 			children = (
 				DDB42D9215927EA50046ED41 /* MBBAppDelegate.h */,
 				DDB42D9315927EA50046ED41 /* MBBAppDelegate.m */,
-				DDB42D9515927EA50046ED41 /* MBBViewController.h */,
-				DDB42D9615927EA50046ED41 /* MBBViewController.m */,
+				DDB42D9515927EA50046ED41 /* MBBMainViewController.h */,
+				DDB42D9615927EA50046ED41 /* MBBMainViewController.m */,
 				DDB42D8A15927EA50046ED41 /* Supporting Files */,
 			);
 			path = "MapBox Bench";
@@ -245,7 +245,7 @@
 			files = (
 				DDB42D9015927EA50046ED41 /* main.m in Sources */,
 				DDB42D9415927EA50046ED41 /* MBBAppDelegate.m in Sources */,
-				DDB42D9715927EA50046ED41 /* MBBViewController.m in Sources */,
+				DDB42D9715927EA50046ED41 /* MBBMainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

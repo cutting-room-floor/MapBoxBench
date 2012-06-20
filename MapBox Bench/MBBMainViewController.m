@@ -1,12 +1,12 @@
 //
-//  MBBViewController.m
+//  MBBMainViewController.m
 //  MapBox Bench
 //
 //  Created by Justin Miller on 6/20/12.
 //  Copyright (c) 2012 MapBox / Development Seed. All rights reserved.
 //
 
-#import "MBBViewController.h"
+#import "MBBMainViewController.h"
 
 #import "RMMapView.h"
 #import "RMMapBoxSource.h"
@@ -41,7 +41,7 @@
 
 #pragma mark -
 
-@interface MBBViewController ()
+@interface MBBMainViewController ()
 
 @property (strong, nonatomic) RMMapView *mapView;
 
@@ -49,7 +49,7 @@
 
 #pragma mark -
 
-@implementation MBBViewController
+@implementation MBBMainViewController
 
 @synthesize mapView;
 

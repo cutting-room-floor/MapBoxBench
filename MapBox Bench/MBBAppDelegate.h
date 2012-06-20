@@ -8,12 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@class MBBViewController;
-
 @interface MBBAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (strong, nonatomic) MBBViewController *viewController;
 
 @end

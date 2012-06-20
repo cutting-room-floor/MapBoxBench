@@ -1,0 +1,297 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DDB42D8415927EA50046ED41 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42D8315927EA50046ED41 /* UIKit.framework */; };
+		DDB42D8615927EA50046ED41 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42D8515927EA50046ED41 /* Foundation.framework */; };
+		DDB42D8815927EA50046ED41 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42D8715927EA50046ED41 /* CoreGraphics.framework */; };
+		DDB42D8E15927EA50046ED41 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DDB42D8C15927EA50046ED41 /* InfoPlist.strings */; };
+		DDB42D9015927EA50046ED41 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB42D8F15927EA50046ED41 /* main.m */; };
+		DDB42D9415927EA50046ED41 /* MBBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB42D9315927EA50046ED41 /* MBBAppDelegate.m */; };
+		DDB42D9715927EA50046ED41 /* MBBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB42D9615927EA50046ED41 /* MBBViewController.m */; };
+		DDB42D9A15927EA50046ED41 /* MBBViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDB42D9815927EA50046ED41 /* MBBViewController_iPhone.xib */; };
+		DDB42D9D15927EA60046ED41 /* MBBViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DDB42D9B15927EA50046ED41 /* MBBViewController_iPad.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DDB42D7F15927EA50046ED41 /* MapBox Bench.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MapBox Bench.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB42D8315927EA50046ED41 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DDB42D8515927EA50046ED41 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DDB42D8715927EA50046ED41 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DDB42D8B15927EA50046ED41 /* MapBox Bench-Info.plist */ = {isa = PBXFileReference; path = "MapBox Bench-Info.plist"; sourceTree = "<group>"; };
+		DDB42D8D15927EA50046ED41 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DDB42D8F15927EA50046ED41 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DDB42D9115927EA50046ED41 /* MapBox Bench-Prefix.pch */ = {isa = PBXFileReference; path = "MapBox Bench-Prefix.pch"; sourceTree = "<group>"; };
+		DDB42D9215927EA50046ED41 /* MBBAppDelegate.h */ = {isa = PBXFileReference; path = MBBAppDelegate.h; sourceTree = "<group>"; };
+		DDB42D9315927EA50046ED41 /* MBBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBBAppDelegate.m; sourceTree = "<group>"; };
+		DDB42D9515927EA50046ED41 /* MBBViewController.h */ = {isa = PBXFileReference; path = MBBViewController.h; sourceTree = "<group>"; };
+		DDB42D9615927EA50046ED41 /* MBBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBBViewController.m; sourceTree = "<group>"; };
+		DDB42D9915927EA50046ED41 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MBBViewController_iPhone.xib; sourceTree = "<group>"; };
+		DDB42D9C15927EA60046ED41 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MBBViewController_iPad.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DDB42D7C15927EA50046ED41 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB42D8415927EA50046ED41 /* UIKit.framework in Frameworks */,
+				DDB42D8615927EA50046ED41 /* Foundation.framework in Frameworks */,
+				DDB42D8815927EA50046ED41 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DDB42D7415927EA50046ED41 = {
+			isa = PBXGroup;
+			children = (
+				DDB42D8915927EA50046ED41 /* MapBox Bench */,
+				DDB42D8215927EA50046ED41 /* Frameworks */,
+				DDB42D8015927EA50046ED41 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DDB42D8015927EA50046ED41 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDB42D7F15927EA50046ED41 /* MapBox Bench.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DDB42D8215927EA50046ED41 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DDB42D8315927EA50046ED41 /* UIKit.framework */,
+				DDB42D8515927EA50046ED41 /* Foundation.framework */,
+				DDB42D8715927EA50046ED41 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DDB42D8915927EA50046ED41 /* MapBox Bench */ = {
+			isa = PBXGroup;
+			children = (
+				DDB42D9215927EA50046ED41 /* MBBAppDelegate.h */,
+				DDB42D9315927EA50046ED41 /* MBBAppDelegate.m */,
+				DDB42D9515927EA50046ED41 /* MBBViewController.h */,
+				DDB42D9615927EA50046ED41 /* MBBViewController.m */,
+				DDB42D9815927EA50046ED41 /* MBBViewController_iPhone.xib */,
+				DDB42D9B15927EA50046ED41 /* MBBViewController_iPad.xib */,
+				DDB42D8A15927EA50046ED41 /* Supporting Files */,
+			);
+			path = "MapBox Bench";
+			sourceTree = "<group>";
+		};
+		DDB42D8A15927EA50046ED41 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DDB42D8B15927EA50046ED41 /* MapBox Bench-Info.plist */,
+				DDB42D8C15927EA50046ED41 /* InfoPlist.strings */,
+				DDB42D8F15927EA50046ED41 /* main.m */,
+				DDB42D9115927EA50046ED41 /* MapBox Bench-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DDB42D7E15927EA50046ED41 /* MapBox Bench */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDB42DA015927EA60046ED41 /* Build configuration list for PBXNativeTarget "MapBox Bench" */;
+			buildPhases = (
+				DDB42D7B15927EA50046ED41 /* Sources */,
+				DDB42D7C15927EA50046ED41 /* Frameworks */,
+				DDB42D7D15927EA50046ED41 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "MapBox Bench";
+			productName = "MapBox Bench";
+			productReference = DDB42D7F15927EA50046ED41 /* MapBox Bench.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DDB42D7615927EA50046ED41 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = MBB;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "MapBox / Development Seed";
+			};
+			buildConfigurationList = DDB42D7915927EA50046ED41 /* Build configuration list for PBXProject "MapBox Bench" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DDB42D7415927EA50046ED41;
+			productRefGroup = DDB42D8015927EA50046ED41 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DDB42D7E15927EA50046ED41 /* MapBox Bench */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DDB42D7D15927EA50046ED41 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB42D8E15927EA50046ED41 /* InfoPlist.strings in Resources */,
+				DDB42D9A15927EA50046ED41 /* MBBViewController_iPhone.xib in Resources */,
+				DDB42D9D15927EA60046ED41 /* MBBViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DDB42D7B15927EA50046ED41 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB42D9015927EA50046ED41 /* main.m in Sources */,
+				DDB42D9415927EA50046ED41 /* MBBAppDelegate.m in Sources */,
+				DDB42D9715927EA50046ED41 /* MBBViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DDB42D8C15927EA50046ED41 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDB42D8D15927EA50046ED41 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DDB42D9815927EA50046ED41 /* MBBViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDB42D9915927EA50046ED41 /* en */,
+			);
+			name = MBBViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		DDB42D9B15927EA50046ED41 /* MBBViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DDB42D9C15927EA60046ED41 /* en */,
+			);
+			name = MBBViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DDB42D9E15927EA60046ED41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DDB42D9F15927EA60046ED41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DDB42DA115927EA60046ED41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MapBox Bench/MapBox Bench-Prefix.pch";
+				INFOPLIST_FILE = "MapBox Bench/MapBox Bench-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DDB42DA215927EA60046ED41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MapBox Bench/MapBox Bench-Prefix.pch";
+				INFOPLIST_FILE = "MapBox Bench/MapBox Bench-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DDB42D7915927EA50046ED41 /* Build configuration list for PBXProject "MapBox Bench" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB42D9E15927EA60046ED41 /* Debug */,
+				DDB42D9F15927EA60046ED41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DDB42DA015927EA60046ED41 /* Build configuration list for PBXNativeTarget "MapBox Bench" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB42DA115927EA60046ED41 /* Debug */,
+				DDB42DA215927EA60046ED41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DDB42D7615927EA50046ED41 /* Project object */;
+}

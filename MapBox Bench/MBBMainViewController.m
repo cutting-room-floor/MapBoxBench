@@ -8,6 +8,9 @@
 
 #import "MBBMainViewController.h"
 
+#import "MBBCommon.h"
+#import "MBBOptionsViewController.h"
+
 #import "RMMapView.h"
 #import "RMMapBoxSource.h"
 
@@ -44,6 +47,7 @@
 @interface MBBMainViewController ()
 
 @property (strong, nonatomic) RMMapView *mapView;
+@property (strong, nonatomic) UIPopoverController *optionsPopover;
 
 @end
 
@@ -52,12 +56,13 @@
 @implementation MBBMainViewController
 
 @synthesize mapView;
+@synthesize optionsPopover;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    RMMapBoxSource *onlineSource = [[RMMapBoxSource alloc] initWithReferenceURL:(([[UIScreen mainScreen] scale] > 1.0) ? kRetinaSourceURL : kNormalSourceURL)];
+    RMMapBoxSource *onlineSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"] ? kRetinaSourceURL : kNormalSourceURL)];
     
     self.mapView = [[RMMapView alloc] initWithFrame:self.view.bounds andTilesource:onlineSource];
     
@@ -75,21 +80,57 @@
     
     [self.view addSubview:self.mapView];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Empty Cache" style:UIBarButtonItemStyleBordered target:self action:@selector(emptyCache:)];
+    self.navigationController.navigationBar.tintColor = [MBBCommon tintColor];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStyleBordered target:self action:@selector(reloadMap:)];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Options" style:UIBarButtonItemStyleBordered target:self action:@selector(showOptions:)];
+    
+    [self reloadMap:self];
 }
 
 #pragma mark -
 
-- (void)emptyCache:(id)sender
+- (void)reloadMap:(id)sender
 {
-    [self.mapView emptyCacheAndForceRefresh];
+    if (self.optionsPopover.popoverVisible)
+        [self.optionsPopover dismissPopoverAnimated:NO];
+    
+    self.mapView.adjustTilesForRetinaDisplay = ! [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
+    
+    [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
 }
 
 - (void)showOptions:(id)sender
 {
-    NSLog(@"blah");
+    if ([MBBCommon isRunningOnPhone])
+    {
+        UINavigationController *wrapper = [[UINavigationController alloc] initWithRootViewController:[[MBBOptionsViewController alloc] initWithNibName:nil bundle:nil]];
+        
+        [self presentModalViewController:wrapper animated:YES];
+    }
+    else
+    {
+        if (self.optionsPopover.popoverVisible)
+        {
+            [self.optionsPopover dismissPopoverAnimated:YES];
+        }
+        else
+        {
+            self.optionsPopover = [[UIPopoverController alloc] initWithContentViewController:[[MBBOptionsViewController alloc] initWithNibName:nil bundle:nil]];
+            
+            self.optionsPopover.delegate = self;
+            
+            [self.optionsPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        }
+    }
+}
+
+#pragma mark -
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    popoverController = nil;
 }
 
 @end

@@ -8,120 +8,138 @@
 
 #import "MBBOptionsViewController.h"
 
-@interface MBBOptionsViewController ()
-
-@end
+#import "MBBCommon.h"
 
 @implementation MBBOptionsViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.title = @"Options";
+    
+    self.navigationController.navigationBar.tintColor = [MBBCommon tintColor];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissModalViewControllerAnimated:)];
 }
 
-- (void)viewDidUnload
+#pragma mark -
+
+- (void)toggleRetinaEnabled:(id)sender
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [[NSUserDefaults standardUserDefaults] setBool:((UISwitch *)sender).on forKey:@"retinaEnabled"];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - Table view data source
+#pragma mark -
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
+    switch (section)
+    {
+        case 0:
+        {
+            return ([MBBCommon isRetinaCapable] ? 1 : 0);
+        }
+        case 1:
+        {
+            return 3;
+        }
+        case 2:
+        {
+            return 1;
+        }    
+    }
+    
     return 0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section)
+    {
+        case 0:
+        {
+            return @"Retina";
+        }
+        case 1:
+        {
+            return @"Concurrency";
+        }
+        case 2:
+        {
+            return @"User Tracking";
+        }    
+    }
+    
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     
-    // Configure the cell...
+    switch (indexPath.section)
+    {
+        case 0:
+        {
+            if ([MBBCommon isRetinaCapable])
+            {
+                UISwitch *retinaSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+                
+                retinaSwitch.onTintColor = [MBBCommon tintColor];
+                
+                retinaSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
+                
+                cell.accessoryView = retinaSwitch;
+                
+                cell.textLabel.text = @"Use retina tiles";
+                
+                [retinaSwitch addTarget:self action:@selector(toggleRetinaEnabled:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            else
+            {
+                cell.textLabel.text = @"Not available on device";
+            }
+            
+            break;
+        }
+        case 1:
+        {
+            cell.textLabel.text = [NSString stringWithFormat:@"method %i", indexPath.row + 1];
+            
+            break;
+        }
+        case 2:
+        {
+            cell.textLabel.text = @"on/off";
+            
+            break;
+        }
+    }
     
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+#pragma mark -
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    if (section == 0 && ! [MBBCommon isRetinaCapable])
+        return 0;
+    
+    return [tableView sectionHeaderHeight];
 }
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSLog(@"%@", indexPath);
 }
 
 @end

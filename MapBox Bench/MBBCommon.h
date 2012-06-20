@@ -1,5 +1,5 @@
 //
-//  MBBOptionsViewController.h
+//  MBBCommon.h
 //  MapBox Bench
 //
 //  Created by Justin Miller on 6/20/12.
@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MBBOptionsViewController : UITableViewController
+@interface MBBCommon : NSObject
+
++ (UIColor *)tintColor;
++ (BOOL)isRunningOnPhone;
++ (BOOL)isRetinaCapable;
 
 @end

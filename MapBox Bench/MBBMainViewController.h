@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MBBMainViewController : UIViewController
+@interface MBBMainViewController : UIViewController <UIPopoverControllerDelegate>
 
 @end

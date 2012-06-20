@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DD33F2341592962C00C83714 /* MBBCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = DD33F2331592962C00C83714 /* MBBCommon.m */; };
 		DDB42D8415927EA50046ED41 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42D8315927EA50046ED41 /* UIKit.framework */; };
 		DDB42D8615927EA50046ED41 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42D8515927EA50046ED41 /* Foundation.framework */; };
 		DDB42D8815927EA50046ED41 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42D8715927EA50046ED41 /* CoreGraphics.framework */; };
@@ -19,6 +20,7 @@
 		DDB42DBE159281D40046ED41 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42DBD159281D40046ED41 /* libz.dylib */; };
 		DDB42DC0159281D80046ED41 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42DBF159281D80046ED41 /* CoreLocation.framework */; };
 		DDB42DC2159282650046ED41 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42DC1159282650046ED41 /* QuartzCore.framework */; };
+		DDB42DD6159288600046ED41 /* MBBOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB42DD5159288600046ED41 /* MBBOptionsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DD33F2321592962C00C83714 /* MBBCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBBCommon.h; sourceTree = "<group>"; };
+		DD33F2331592962C00C83714 /* MBBCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBBCommon.m; sourceTree = "<group>"; };
 		DDB42D7F15927EA50046ED41 /* Bench.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bench.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDB42D8315927EA50046ED41 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DDB42D8515927EA50046ED41 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -56,13 +60,15 @@
 		DDB42D9115927EA50046ED41 /* MapBox Bench-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MapBox Bench-Prefix.pch"; sourceTree = "<group>"; };
 		DDB42D9215927EA50046ED41 /* MBBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBBAppDelegate.h; sourceTree = "<group>"; };
 		DDB42D9315927EA50046ED41 /* MBBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBBAppDelegate.m; sourceTree = "<group>"; };
-		DDB42D9515927EA50046ED41 /* MBBMainViewController.h */ = {isa = PBXFileReference; path = MBBMainViewController.h; sourceTree = "<group>"; };
+		DDB42D9515927EA50046ED41 /* MBBMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MBBMainViewController.h; sourceTree = "<group>"; };
 		DDB42D9615927EA50046ED41 /* MBBMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBBMainViewController.m; sourceTree = "<group>"; };
 		DDB42DA4159281420046ED41 /* MapView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MapView.xcodeproj; path = "MapBox-iOS-SDK/MapView/MapView.xcodeproj"; sourceTree = "<group>"; };
 		DDB42DBB159281CE0046ED41 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		DDB42DBD159281D40046ED41 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		DDB42DBF159281D80046ED41 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		DDB42DC1159282650046ED41 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DDB42DD41592885F0046ED41 /* MBBOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBBOptionsViewController.h; sourceTree = "<group>"; };
+		DDB42DD5159288600046ED41 /* MBBOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBBOptionsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,10 +125,14 @@
 		DDB42D8915927EA50046ED41 /* MapBox Bench */ = {
 			isa = PBXGroup;
 			children = (
+				DD33F2321592962C00C83714 /* MBBCommon.h */,
+				DD33F2331592962C00C83714 /* MBBCommon.m */,
 				DDB42D9215927EA50046ED41 /* MBBAppDelegate.h */,
 				DDB42D9315927EA50046ED41 /* MBBAppDelegate.m */,
 				DDB42D9515927EA50046ED41 /* MBBMainViewController.h */,
 				DDB42D9615927EA50046ED41 /* MBBMainViewController.m */,
+				DDB42DD41592885F0046ED41 /* MBBOptionsViewController.h */,
+				DDB42DD5159288600046ED41 /* MBBOptionsViewController.m */,
 				DDB42D8A15927EA50046ED41 /* Supporting Files */,
 			);
 			path = "MapBox Bench";
@@ -246,6 +256,8 @@
 				DDB42D9015927EA50046ED41 /* main.m in Sources */,
 				DDB42D9415927EA50046ED41 /* MBBAppDelegate.m in Sources */,
 				DDB42D9715927EA50046ED41 /* MBBMainViewController.m in Sources */,
+				DDB42DD6159288600046ED41 /* MBBOptionsViewController.m in Sources */,
+				DD33F2341592962C00C83714 /* MBBCommon.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +377,7 @@
 				DDB42DA215927EA60046ED41 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

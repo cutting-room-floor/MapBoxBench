@@ -325,6 +325,7 @@
 				GCC_PREFIX_HEADER = "MapBox Bench/MapBox Bench-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/MapBox-iOS-SDK\"/**";
 				INFOPLIST_FILE = "MapBox Bench/MapBox Bench-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Bench;
 				WRAPPER_EXTENSION = app;
@@ -338,6 +339,7 @@
 				GCC_PREFIX_HEADER = "MapBox Bench/MapBox Bench-Prefix.pch";
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/MapBox-iOS-SDK\"/**";
 				INFOPLIST_FILE = "MapBox Bench/MapBox Bench-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Bench;
 				WRAPPER_EXTENSION = app;

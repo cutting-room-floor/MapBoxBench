@@ -46,7 +46,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		DDB42D7F15927EA50046ED41 /* MapBox Bench.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MapBox Bench.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB42D7F15927EA50046ED41 /* Bench.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bench.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDB42D8315927EA50046ED41 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DDB42D8515927EA50046ED41 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DDB42D8715927EA50046ED41 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -97,7 +97,7 @@
 		DDB42D8015927EA50046ED41 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				DDB42D7F15927EA50046ED41 /* MapBox Bench.app */,
+				DDB42D7F15927EA50046ED41 /* Bench.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -174,7 +174,7 @@
 			);
 			name = "MapBox Bench";
 			productName = "MapBox Bench";
-			productReference = DDB42D7F15927EA50046ED41 /* MapBox Bench.app */;
+			productReference = DDB42D7F15927EA50046ED41 /* Bench.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -326,7 +326,7 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/MapBox-iOS-SDK\"/**";
 				INFOPLIST_FILE = "MapBox Bench/MapBox Bench-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Bench;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -339,7 +339,7 @@
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/MapBox-iOS-SDK\"/**";
 				INFOPLIST_FILE = "MapBox Bench/MapBox Bench-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Bench;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

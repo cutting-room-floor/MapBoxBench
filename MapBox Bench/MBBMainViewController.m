@@ -126,7 +126,10 @@
         self.mapView.tileSource = tileSource;
         
         self.mapView.adjustTilesForRetinaDisplay = ! [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
+
         self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
+        self.mapView.userTrackingMode            =   ([[NSUserDefaults standardUserDefaults] boolForKey:@"centerMapEnabled"] ? RMUserTrackingModeFollow : RMUserTrackingModeNone);
+                                                        
     //    self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
         
         [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];

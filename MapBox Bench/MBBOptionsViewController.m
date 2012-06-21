@@ -41,16 +41,31 @@
         case 1:
         {
             defaultName = @"retina";
+            
             break;
         }
         case 2:
         {
             defaultName = @"userTracking";
+            
             break;
         }
         case 3:
         {
+            defaultName = @"centerMap";
+
+            if (sender.on)
+            {
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"userTrackingEnabled"];
+                [((UISwitch *)[self.tableView viewWithTag:2]) setOn:YES animated:YES];
+            }
+            
+            break;
+        }
+        case 4:
+        {
             defaultName = @"showTiles";
+            
             break;
         }
     }
@@ -80,7 +95,7 @@
         }
         case 2:
         {
-            return 1;
+            return 2;
         }
         case 3:
         {
@@ -163,19 +178,38 @@
         }
         case 2:
         {
-            UISwitch *userTrackingSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-            
-            userTrackingSwitch.onTintColor = [MBBCommon tintColor];
-            
-            userTrackingSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
-            
-            userTrackingSwitch.tag = 2;
-            
-            cell.accessoryView = userTrackingSwitch;
-            
-            cell.textLabel.text = @"Show user location";
-            
-            [userTrackingSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
+            if (indexPath.row == 0)
+            {
+                UISwitch *userTrackingSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+                
+                userTrackingSwitch.onTintColor = [MBBCommon tintColor];
+                
+                userTrackingSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
+                
+                userTrackingSwitch.tag = 2;
+                
+                cell.accessoryView = userTrackingSwitch;
+                
+                cell.textLabel.text = @"Show user location";
+                
+                [userTrackingSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            else if (indexPath.row == 1)
+            {
+                UISwitch *centerMapSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+                
+                centerMapSwitch.onTintColor = [MBBCommon tintColor];
+                
+                centerMapSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"centerMapEnabled"];
+                
+                centerMapSwitch.tag = 3;
+                
+                cell.accessoryView = centerMapSwitch;
+                
+                cell.textLabel.text = @"Center on user location";
+                
+                [centerMapSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
+            }
             
             break;
         }
@@ -187,7 +221,7 @@
             
             showTilesSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
             
-            showTilesSwitch.tag = 3;
+            showTilesSwitch.tag = 4;
             
             cell.accessoryView = showTilesSwitch;
             

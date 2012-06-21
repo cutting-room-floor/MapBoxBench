@@ -114,7 +114,7 @@
     if (self.optionsPopover.popoverVisible)
         [self.optionsPopover dismissPopoverAnimated:NO];
 
-    if (self.defaultsDidChange)
+    if (self.defaultsDidChange || [sender isEqual:self])
     {
         RMMapBoxSource *tileSource;
         

@@ -62,9 +62,9 @@
 {
     [super viewDidLoad];
 
-    RMMapBoxSource *onlineSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"] ? kRetinaSourceURL : kNormalSourceURL)];
+    RMMapBoxSource *tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"] ? kRetinaSourceURL : kNormalSourceURL)];
     
-    self.mapView = [[RMMapView alloc] initWithFrame:self.view.bounds andTilesource:onlineSource];
+    self.mapView = [[RMMapView alloc] initWithFrame:self.view.bounds andTilesource:tileSource];
     
     self.mapView.zoom = 2;
     
@@ -105,6 +105,15 @@
     if (self.optionsPopover.popoverVisible)
         [self.optionsPopover dismissPopoverAnimated:NO];
     
+    RMMapBoxSource *tileSource;
+    
+    if ([[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
+        tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:[[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"]];
+    else
+        tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"] ? kRetinaSourceURL : kNormalSourceURL)];
+
+    self.mapView.tileSource = tileSource;
+    
     self.mapView.adjustTilesForRetinaDisplay = ! [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
     self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
     self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
@@ -131,6 +140,8 @@
             self.optionsPopover = [[UIPopoverController alloc] initWithContentViewController:[[MBBOptionsViewController alloc] initWithNibName:nil bundle:nil]];
             
             self.optionsPopover.delegate = self;
+            
+            [self.optionsPopover setPopoverContentSize:CGSizeMake(400, 500)];
             
             [self.optionsPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }

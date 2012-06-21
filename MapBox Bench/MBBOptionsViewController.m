@@ -63,7 +63,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 4;
+    return 5;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -83,6 +83,10 @@
             return 1;
         }
         case 3:
+        {
+            return 1;
+        }
+        case 4:
         {
             return 1;
         }
@@ -110,6 +114,10 @@
         case 3:
         {
             return @"Debugging";
+        }
+        case 4:
+        {
+            return @"TileJSON URL";
         }
     }
     
@@ -186,8 +194,29 @@
             cell.textLabel.text = @"Tile borders & labels";
             
             [showTilesSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
+            
+            break;
+        }
+        case 4:
+        {
+            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            
+            if ([[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
+                cell.textLabel.text = [[[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"] absoluteString];
+            else
+                cell.textLabel.text = @"Production MapBox Streets";
+            
+            cell.textLabel.lineBreakMode = UILineBreakModeMiddleTruncation;
+            
+            break;
         }
     }
+    
+    if ([cell.accessoryView isKindOfClass:[UISwitch class]])
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.bounds];
+    cell.selectedBackgroundView.backgroundColor = [MBBCommon tintColor];
     
     return cell;
 }
@@ -206,7 +235,63 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSLog(@"%@", indexPath);
+    switch (indexPath.section)
+    {
+        case 1:
+        {
+            NSLog(@"Concurrency option %i", indexPath.row + 1);
+            
+            break;
+        }
+        
+        case 4:
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TileJSON URL"
+                                                            message:@"Enter a custom TileJSON URL to load or just select the default."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Use Default"
+                                                  otherButtonTitles:@"Use Entered", nil];
+            
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            
+            if ([[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
+                [alert textFieldAtIndex:0].text = [[[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"] absoluteString];
+            
+            [alert show];
+            
+            break;
+        }
+        default:
+        {
+            NSLog(@"%@", indexPath);
+            
+            break;
+        }
+    }    
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 4)
+        [self tableView:tableView didSelectRowAtIndexPath:indexPath];
+}
+
+#pragma mark -
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+    {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tileJSONURL"];
+    }
+    else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [NSURL URLWithString:[alertView textFieldAtIndex:0].text])
+    {
+        [[NSUserDefaults standardUserDefaults] setURL:[NSURL URLWithString:[alertView textFieldAtIndex:0].text] forKey:@"tileJSONURL"];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:4]] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 @end

@@ -10,6 +10,6 @@
 
 static NSString *const MBBOptionsChangedNotification = @"MBBOptionsChangedNotification";
 
-@interface MBBOptionsViewController : UITableViewController
+@interface MBBOptionsViewController : UITableViewController <UIAlertViewDelegate>
 
 @end

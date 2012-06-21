@@ -48,6 +48,7 @@
 
 @property (strong, nonatomic) RMMapView *mapView;
 @property (strong, nonatomic) UIPopoverController *optionsPopover;
+@property (nonatomic) BOOL defaultsDidChange;
 
 @end
 
@@ -57,6 +58,7 @@
 
 @synthesize mapView;
 @synthesize optionsPopover;
+@synthesize defaultsDidChange;
 
 - (void)viewDidLoad
 {
@@ -88,37 +90,47 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Options" style:UIBarButtonItemStyleBordered target:self action:@selector(showOptions:)];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMap:) name:MBBOptionsChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMap:)         name:MBBOptionsDismissedNotification     object:nil];
     
     [self reloadMap:self];
 }
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MBBOptionsChangedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MBBOptionsDismissedNotification     object:nil];
 }
 
 #pragma mark -
 
+- (void)defaultsDidChange:(NSNotification *)notification
+{
+    self.defaultsDidChange = YES;
+}
+     
 - (void)reloadMap:(id)sender
 {
     if (self.optionsPopover.popoverVisible)
         [self.optionsPopover dismissPopoverAnimated:NO];
-    
-    RMMapBoxSource *tileSource;
-    
-    if ([[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
-        tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:[[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"]];
-    else
-        tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"] ? kRetinaSourceURL : kNormalSourceURL)];
 
-    self.mapView.tileSource = tileSource;
-    
-    self.mapView.adjustTilesForRetinaDisplay = ! [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
-    self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
-    self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
-    
-    [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
+    if (self.defaultsDidChange)
+    {
+        RMMapBoxSource *tileSource;
+        
+        if ([[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
+            tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:[[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"]];
+        else
+            tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"] ? kRetinaSourceURL : kNormalSourceURL)];
+
+        self.mapView.tileSource = tileSource;
+        
+        self.mapView.adjustTilesForRetinaDisplay = ! [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
+        self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
+    //    self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
+        
+        [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
+    }
 }
 
 - (void)showOptions:(id)sender
@@ -146,6 +158,8 @@
             [self.optionsPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
     }
+    
+    self.defaultsDidChange = NO;
 }
 
 #pragma mark -

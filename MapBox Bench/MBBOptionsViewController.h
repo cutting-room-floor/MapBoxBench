@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-static NSString *const MBBOptionsChangedNotification = @"MBBOptionsChangedNotification";
+static NSString *const MBBOptionsDismissedNotification = @"MBBOptionsChangedNotification";
 
 @interface MBBOptionsViewController : UITableViewController <UIAlertViewDelegate>
 

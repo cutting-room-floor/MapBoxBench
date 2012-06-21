@@ -27,7 +27,7 @@
 {
     [super viewDidDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:MBBOptionsChangedNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:MBBOptionsDismissedNotification object:self];
 }
 
 #pragma mark -
@@ -280,17 +280,17 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0)
+    if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
     {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tileJSONURL"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [NSURL URLWithString:[alertView textFieldAtIndex:0].text])
     {
         [[NSUserDefaults standardUserDefaults] setURL:[NSURL URLWithString:[alertView textFieldAtIndex:0].text] forKey:@"tileJSONURL"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
+
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:4]] withRowAnimation:UITableViewRowAnimationFade];
 }
 

@@ -161,26 +161,19 @@
     {
         case 0:
         {
-            if ([MBBCommon isRetinaCapable])
-            {
-                UISwitch *retinaSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
-                
-                retinaSwitch.onTintColor = [MBBCommon tintColor];
-                
-                retinaSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
-                
-                retinaSwitch.tag = 1;
-                
-                cell.accessoryView = retinaSwitch;
-                
-                cell.textLabel.text = @"Use retina tiles";
-                
-                [retinaSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
-            }
-            else
-            {
-                cell.textLabel.text = @"Not available on device";
-            }
+            UISwitch *retinaSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+            
+            retinaSwitch.onTintColor = [MBBCommon tintColor];
+            
+            retinaSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
+            
+            retinaSwitch.tag = 1;
+            
+            cell.accessoryView = retinaSwitch;
+            
+            cell.textLabel.text = @"Use retina tiles";
+            
+            [retinaSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
             
             break;
         }

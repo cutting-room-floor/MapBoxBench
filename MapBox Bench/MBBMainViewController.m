@@ -104,7 +104,7 @@
         [self.optionsPopover dismissPopoverAnimated:NO];
     
     self.mapView.adjustTilesForRetinaDisplay = ! [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
-    self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:@"userLocationEnabled"];
+    self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
     self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
     
     [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];

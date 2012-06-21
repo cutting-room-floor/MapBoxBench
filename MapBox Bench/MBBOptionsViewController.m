@@ -146,7 +146,7 @@
         }
         case 5:
         {
-            return @"Ignore Options & Use MapKit";
+            return @"MapKit Debug Layer";
         }
     }
     
@@ -270,7 +270,7 @@
             
             cell.accessoryView = useMapKitSwitch;
             
-            cell.textLabel.text = @"Use MapKit";
+            cell.textLabel.text = @"Show MapKit";
             
             [useMapKitSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
             

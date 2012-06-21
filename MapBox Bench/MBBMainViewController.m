@@ -97,6 +97,14 @@
     [self reloadMap:self];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if ( ! [MBBCommon isRunningOnPhone])
+            return YES;
+    
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];

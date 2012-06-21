@@ -71,6 +71,8 @@
         case 5:
         {
             defaultName = @"useMapKit";
+
+            [self.tableView performSelector:@selector(reloadData) withObject:nil afterDelay:0];
             
             break;
         }
@@ -328,10 +330,21 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    if (section != 5 && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
+        return 0;
+    
     if (section == 0 && ! [MBBCommon isRetinaCapable])
         return 0;
     
     return [tableView sectionHeaderHeight];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section != 5 && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
+        return 0;
+    
+    return [tableView rowHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

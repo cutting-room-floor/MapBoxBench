@@ -105,11 +105,11 @@
         }
         case 2:
         {
-            return @"User Tracking";
+            return @"User Location Services";
         }
         case 3:
         {
-            return @"Show Tiles";
+            return @"Debugging";
         }
     }
     

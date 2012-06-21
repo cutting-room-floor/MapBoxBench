@@ -80,6 +80,8 @@
     
     [self.view addSubview:self.mapView];
     
+    self.title = [[NSProcessInfo processInfo] processName];
+    
     self.navigationController.navigationBar.tintColor = [MBBCommon tintColor];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Reload" style:UIBarButtonItemStyleBordered target:self action:@selector(reloadMap:)];

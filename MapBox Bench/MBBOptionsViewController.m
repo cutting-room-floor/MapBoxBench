@@ -179,7 +179,32 @@
         }
         case 1:
         {
-            cell.textLabel.text = [NSString stringWithFormat:@"method %i", indexPath.row + 1];
+            int concurrencyMethod = [[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"];
+            
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    cell.textLabel.text = @"Production default";
+                    cell.accessoryType  = (concurrencyMethod == 0 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+
+                    break;
+                }
+                case 1:
+                {
+                    cell.accessoryType  = (concurrencyMethod == 1 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+                    cell.textLabel.text = @"Asynchronous";
+                    
+                    break;
+                }
+                case 2:
+                {
+                    cell.textLabel.text = @"Batched like MapKit";
+                    cell.accessoryType  = (concurrencyMethod == 2 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+                    
+                    break;
+                }
+            }
             
             break;
         }
@@ -298,7 +323,10 @@
     {
         case 1:
         {
-            NSLog(@"Concurrency option %i", indexPath.row + 1);
+            [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"concurrencyMethod"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+
+            [tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
             
             break;
         }
@@ -350,7 +378,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:4]] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationFade];
 }
 
 @end

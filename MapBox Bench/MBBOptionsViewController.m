@@ -202,8 +202,8 @@
                 }
                 case 1:
                 {
-                    cell.accessoryType  = (concurrencyMethod == 1 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
                     cell.textLabel.text = @"Asynchronous";
+                    cell.accessoryType  = (concurrencyMethod == 1 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
                     
                     break;
                 }

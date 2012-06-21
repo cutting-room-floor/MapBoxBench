@@ -86,7 +86,12 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Options" style:UIBarButtonItemStyleBordered target:self action:@selector(showOptions:)];
     
-    [self reloadMap:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMap:) name:MBBOptionsChangedNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MBBOptionsChangedNotification object:nil];
 }
 
 #pragma mark -

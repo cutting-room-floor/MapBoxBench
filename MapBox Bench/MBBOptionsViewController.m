@@ -23,18 +23,47 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissModalViewControllerAnimated:)];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:MBBOptionsChangedNotification object:self];
+}
+
 #pragma mark -
 
-- (void)toggleRetinaEnabled:(id)sender
+- (void)toggleSwitch:(UISwitch *)sender
 {
-    [[NSUserDefaults standardUserDefaults] setBool:((UISwitch *)sender).on forKey:@"retinaEnabled"];
+    NSString *defaultName;
+    
+    switch (sender.tag)
+    {
+        case 1:
+        {
+            defaultName = @"retina";
+            break;
+        }
+        case 2:
+        {
+            defaultName = @"userTracking";
+            break;
+        }
+        case 3:
+        {
+            defaultName = @"showTiles";
+            break;
+        }
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:[NSString stringWithFormat:@"%@Enabled", defaultName]];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark -
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -52,7 +81,11 @@
         case 2:
         {
             return 1;
-        }    
+        }
+        case 3:
+        {
+            return 1;
+        }
     }
     
     return 0;
@@ -73,7 +106,11 @@
         case 2:
         {
             return @"User Tracking";
-        }    
+        }
+        case 3:
+        {
+            return @"Show Tiles";
+        }
     }
     
     return nil;
@@ -95,11 +132,13 @@
                 
                 retinaSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
                 
+                retinaSwitch.tag = 1;
+                
                 cell.accessoryView = retinaSwitch;
                 
                 cell.textLabel.text = @"Use retina tiles";
                 
-                [retinaSwitch addTarget:self action:@selector(toggleRetinaEnabled:) forControlEvents:UIControlEventTouchUpInside];
+                [retinaSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
             }
             else
             {
@@ -116,9 +155,37 @@
         }
         case 2:
         {
-            cell.textLabel.text = @"on/off";
+            UISwitch *userTrackingSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+            
+            userTrackingSwitch.onTintColor = [MBBCommon tintColor];
+            
+            userTrackingSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
+            
+            userTrackingSwitch.tag = 2;
+            
+            cell.accessoryView = userTrackingSwitch;
+            
+            cell.textLabel.text = @"Show user location";
+            
+            [userTrackingSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
             
             break;
+        }
+        case 3:
+        {
+            UISwitch *showTilesSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+            
+            showTilesSwitch.onTintColor = [MBBCommon tintColor];
+            
+            showTilesSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
+            
+            showTilesSwitch.tag = 3;
+            
+            cell.accessoryView = showTilesSwitch;
+            
+            cell.textLabel.text = @"Tile borders & labels";
+            
+            [showTilesSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
         }
     }
     

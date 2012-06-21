@@ -87,6 +87,8 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Options" style:UIBarButtonItemStyleBordered target:self action:@selector(showOptions:)];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMap:) name:MBBOptionsChangedNotification object:nil];
+    
+    [self reloadMap:self];
 }
 
 - (void)dealloc
@@ -102,6 +104,8 @@
         [self.optionsPopover dismissPopoverAnimated:NO];
     
     self.mapView.adjustTilesForRetinaDisplay = ! [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
+    self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:@"userLocationEnabled"];
+    self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
     
     [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
 }

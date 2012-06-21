@@ -205,12 +205,16 @@
                     cell.textLabel.text = @"Asynchronous";
                     cell.accessoryType  = (concurrencyMethod == 1 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
                     
+                    cell.textLabel.textColor = [UIColor lightGrayColor];
+
                     break;
                 }
                 case 2:
                 {
                     cell.textLabel.text = @"Batched like MapKit";
                     cell.accessoryType  = (concurrencyMethod == 2 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+
+                    cell.textLabel.textColor = [UIColor lightGrayColor];
                     
                     break;
                 }
@@ -358,7 +362,12 @@
             [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"concurrencyMethod"];
             [[NSUserDefaults standardUserDefaults] synchronize];
 
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+            NSMutableArray *rowsToReload = [NSMutableArray array];
+            
+            for (int i = 0; i < [tableView numberOfRowsInSection:indexPath.section]; i++)
+                [rowsToReload addObject:[NSIndexPath indexPathForRow:i inSection:indexPath.section]];
+            
+            [tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationFade];
             
             break;
         }

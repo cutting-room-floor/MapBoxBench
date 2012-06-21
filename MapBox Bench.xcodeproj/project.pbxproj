@@ -11,6 +11,7 @@
 		DD19923A1593A06200C1C0CF /* bench.png in Resources */ = {isa = PBXBuildFile; fileRef = DD1992361593A06200C1C0CF /* bench.png */; };
 		DD19923B1593A06200C1C0CF /* bench_ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = DD1992371593A06200C1C0CF /* bench_ipad.png */; };
 		DD19923C1593A06200C1C0CF /* bench_ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD1992381593A06200C1C0CF /* bench_ipad@2x.png */; };
+		DD19923E1593A95800C1C0CF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD19923D1593A95800C1C0CF /* MapKit.framework */; };
 		DD33F2341592962C00C83714 /* MBBCommon.m in Sources */ = {isa = PBXBuildFile; fileRef = DD33F2331592962C00C83714 /* MBBCommon.m */; };
 		DD33F26F1592AA7100C83714 /* HeadingAngleSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = DD33F2651592AA7100C83714 /* HeadingAngleSmall.png */; };
 		DD33F2701592AA7100C83714 /* HeadingAngleSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DD33F2661592AA7100C83714 /* HeadingAngleSmall@2x.png */; };
@@ -66,6 +67,7 @@
 		DD1992361593A06200C1C0CF /* bench.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bench.png; sourceTree = "<group>"; };
 		DD1992371593A06200C1C0CF /* bench_ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bench_ipad.png; sourceTree = "<group>"; };
 		DD1992381593A06200C1C0CF /* bench_ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bench_ipad@2x.png"; sourceTree = "<group>"; };
+		DD19923D1593A95800C1C0CF /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		DD33F2321592962C00C83714 /* MBBCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBBCommon.h; sourceTree = "<group>"; };
 		DD33F2331592962C00C83714 /* MBBCommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBBCommon.m; sourceTree = "<group>"; };
 		DD33F2651592AA7100C83714 /* HeadingAngleSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HeadingAngleSmall.png; path = "MapBox-iOS-SDK/MapView/Map/Resources/HeadingAngleSmall.png"; sourceTree = SOURCE_ROOT; };
@@ -107,6 +109,7 @@
 				DDB42D8815927EA50046ED41 /* CoreGraphics.framework in Frameworks */,
 				DDB42DC0159281D80046ED41 /* CoreLocation.framework in Frameworks */,
 				DDB42D8615927EA50046ED41 /* Foundation.framework in Frameworks */,
+				DD19923E1593A95800C1C0CF /* MapKit.framework in Frameworks */,
 				DDB42DC2159282650046ED41 /* QuartzCore.framework in Frameworks */,
 				DDB42D8415927EA50046ED41 /* UIKit.framework in Frameworks */,
 				DDB42DBA159281A00046ED41 /* libMapView.a in Frameworks */,
@@ -165,6 +168,7 @@
 				DDB42D8715927EA50046ED41 /* CoreGraphics.framework */,
 				DDB42DBF159281D80046ED41 /* CoreLocation.framework */,
 				DDB42D8515927EA50046ED41 /* Foundation.framework */,
+				DD19923D1593A95800C1C0CF /* MapKit.framework */,
 				DDB42DC1159282650046ED41 /* QuartzCore.framework */,
 				DDB42D8315927EA50046ED41 /* UIKit.framework */,
 				DDB42DBB159281CE0046ED41 /* libsqlite3.dylib */,

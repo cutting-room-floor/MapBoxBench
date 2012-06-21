@@ -68,6 +68,12 @@
             
             break;
         }
+        case 5:
+        {
+            defaultName = @"useMapKit";
+            
+            break;
+        }
     }
     
     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:[NSString stringWithFormat:@"%@Enabled", defaultName]];
@@ -78,7 +84,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 5;
+    return 6;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -102,6 +108,10 @@
             return 1;
         }
         case 4:
+        {
+            return 1;
+        }
+        case 5:
         {
             return 1;
         }
@@ -133,6 +143,10 @@
         case 4:
         {
             return @"TileJSON URL";
+        }
+        case 5:
+        {
+            return @"Ignore Options & Use MapKit";
         }
     }
     
@@ -241,6 +255,24 @@
                 cell.textLabel.text = @"Production MapBox Streets";
             
             cell.textLabel.lineBreakMode = UILineBreakModeMiddleTruncation;
+            
+            break;
+        }
+        case 5:
+        {
+            UISwitch *useMapKitSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
+            
+            useMapKitSwitch.onTintColor = [MBBCommon tintColor];
+            
+            useMapKitSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"];
+            
+            useMapKitSwitch.tag = 5;
+            
+            cell.accessoryView = useMapKitSwitch;
+            
+            cell.textLabel.text = @"Use MapKit";
+            
+            [useMapKitSwitch addTarget:self action:@selector(toggleSwitch:) forControlEvents:UIControlEventTouchUpInside];
             
             break;
         }

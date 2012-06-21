@@ -14,6 +14,7 @@
 #import "RMMapView.h"
 #import "RMMapBoxSource.h"
 
+#import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
 
 #define kNormalSourceURL [NSURL URLWithString:@"http://a.tiles.mapbox.com/v3/justin.map-s2effxa8.jsonp"] // see https://tiles.mapbox.com/justin/map/map-s2effxa8
@@ -133,6 +134,46 @@
     //    self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
         
         [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
+        
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
+        {
+            if ( ! [[[self.view subviews] valueForKeyPath:@"class"] containsObject:[MKMapView class]])
+            {
+                MKMapView *mapKitMapView = [[MKMapView alloc] initWithFrame:self.mapView.bounds];
+
+                CLLocationCoordinate2D bottomLeft = [self.mapView pixelToCoordinate:self.mapView.bounds.origin];
+                CLLocationCoordinate2D topRight   = [self.mapView pixelToCoordinate:CGPointMake(self.mapView.bounds.size.width, self.mapView.bounds.size.height)];
+                
+                mapKitMapView.region = MKCoordinateRegionMake(self.mapView.centerCoordinate, MKCoordinateSpanMake(fabs(topRight.latitude - bottomLeft.latitude), fabs(topRight.longitude - bottomLeft.longitude)));
+                
+                [self.view addSubview:mapKitMapView];
+            }
+
+            self.mapView.hidden = YES;
+        }
+        else
+        {
+            if ([[[self.view subviews] valueForKeyPath:@"class"] containsObject:[MKMapView class]])
+            {
+                MKMapView *mapKitMapView;
+                
+                for (UIView *subview in [self.view subviews])
+                    if ([subview isKindOfClass:[MKMapView class]])
+                        mapKitMapView = (MKMapView *)subview;
+                
+                MKCoordinateRegion region = mapKitMapView.region;
+                
+                [self.mapView zoomWithLatitudeLongitudeBoundsSouthWest:CLLocationCoordinate2DMake(region.center.latitude  - region.span.latitudeDelta  / 2, 
+                                                                                                  region.center.longitude - region.span.longitudeDelta / 2) 
+                                                             northEast:CLLocationCoordinate2DMake(region.center.latitude  + region.span.latitudeDelta  / 2, 
+                                                                                                  region.center.longitude + region.span.longitudeDelta / 2) 
+                                                              animated:NO];
+                
+                [mapKitMapView removeFromSuperview];
+            }
+                 
+            self.mapView.hidden = NO;
+        }
     }
 }
 

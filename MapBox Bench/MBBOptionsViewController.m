@@ -84,7 +84,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 6;
+    return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -112,6 +112,10 @@
             return 1;
         }
         case 5:
+        {
+            return 1;
+        }
+        case 6:
         {
             return 1;
         }
@@ -147,6 +151,10 @@
         case 5:
         {
             return @"MapKit Debug Layer";
+        }
+        case 6:
+        {
+            return @"Artificial latency";
         }
     }
     
@@ -294,6 +302,17 @@
             
             break;
         }
+        case 6:
+        {
+            cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+            
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"])
+                cell.textLabel.text = [NSString stringWithFormat:@"%ims", [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"]];
+            else
+                cell.textLabel.text = @"None";
+                        
+            break;
+        }
     }
     
     if ([cell.accessoryView isKindOfClass:[UISwitch class]])
@@ -334,15 +353,36 @@
         case 4:
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TileJSON URL"
-                                                            message:@"Enter a custom TileJSON URL to load or just select the default."
+                                                            message:@"Enter a custom TileJSON URL to load or just select the default:"
                                                            delegate:self
                                                   cancelButtonTitle:@"Use Default"
                                                   otherButtonTitles:@"Use Entered", nil];
+            
+            alert.tag = 1;
             
             alert.alertViewStyle = UIAlertViewStylePlainTextInput;
             
             if ([[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
                 [alert textFieldAtIndex:0].text = [[[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"] absoluteString];
+            
+            [alert show];
+            
+            break;
+        }
+        case 6:
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Artificial Latency"
+                                                            message:@"Enter a value in milliseconds:"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"None"
+                                                  otherButtonTitles:@"Apply", nil];
+            
+            alert.tag = 2;
+            
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"])
+                [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"]];
             
             [alert show];
             
@@ -359,26 +399,47 @@
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 4)
-        [self tableView:tableView didSelectRowAtIndexPath:indexPath];
+    [self tableView:tableView didSelectRowAtIndexPath:indexPath];
 }
 
 #pragma mark -
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
+    if (alertView.tag == 1)
     {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tileJSONURL"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [NSURL URLWithString:[alertView textFieldAtIndex:0].text])
-    {
-        [[NSUserDefaults standardUserDefaults] setURL:[NSURL URLWithString:[alertView textFieldAtIndex:0].text] forKey:@"tileJSONURL"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
+        {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tileJSONURL"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
 
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [NSURL URLWithString:[alertView textFieldAtIndex:0].text])
+        {
+            [[NSUserDefaults standardUserDefaults] setURL:[NSURL URLWithString:[alertView textFieldAtIndex:0].text] forKey:@"tileJSONURL"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
+    else if (alertView.tag == 2)
+    {
+        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"])
+        {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"artificialLatency"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:6] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [[alertView textFieldAtIndex:0].text integerValue])
+        {
+            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:@"artificialLatency"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:6] withRowAnimation:UITableViewRowAnimationFade];
+        }        
+    }
 }
 
 @end

@@ -141,6 +141,9 @@
                                                         
     //    self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
         
+        NSLog(@"debugTiles: %i", [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"]);
+        NSLog(@"artificialLatency: %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"]);
+        
         [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])

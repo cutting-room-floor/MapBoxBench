@@ -18,7 +18,7 @@ If using the experimental modes, configure them here.
 
 #### Prefetch Radius
 
-Consider a tile request for tile `X`. Entering a radius value of `2` will synchronously request tile `X` as well as kick of concurrent, asynchronous fetches for the following tiles (`2` tiles in all directions). These tiles go straight to local cache if successful, to be drawn later by subsequent tile requests (cache is always checkded first before network fetching). 
+Consider a tile request for tile `X`. Entering a radius value of `2` will synchronously request tile `X` as well as kick off concurrent, asynchronous fetches for the following tiles (`2` tiles in all directions). These tiles go straight to local cache if successful, to be drawn later by subsequent tile requests (cache is always checked first before network fetching). 
 
     o o o o o
     o o o o o
@@ -32,7 +32,7 @@ Aside from the normal synchronous tile fetches, how many simultaneous background
 
 ### User Location Services
 
-Configure the standard show user & center on use options here. 
+Configure the standard "show user" & "center on user" options here. 
 
 ### Debugging
 
@@ -46,7 +46,7 @@ Enter an alternate TileJSON URL to load or choose the default MapBox Streets.
 
 ### MapKit Debug Layer
 
-Temporarily hide SDK functionality to see how MapKit shows the current view. 
+Temporarily hide SDK functionality to see how Apple's MapKit shows the current view. 
 
 ### Artificial Latency
 

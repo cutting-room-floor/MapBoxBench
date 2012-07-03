@@ -187,7 +187,8 @@
         
         if ([[NSUserDefaults standardUserDefaults] URLForKey:MBBDefaultsKeyTileJSONURL])
             tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:[[NSUserDefaults standardUserDefaults] URLForKey:MBBDefaultsKeyTileJSONURL]];
-        else
+
+        if ( ! tileSource)
             tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyRetinaEnabled] ? kRetinaSourceURL : kNormalSourceURL)];
 
         self.mapView.tileSource = tileSource;

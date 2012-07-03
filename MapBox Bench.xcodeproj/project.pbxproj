@@ -36,6 +36,7 @@
 		DDB42DC0159281D80046ED41 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42DBF159281D80046ED41 /* CoreLocation.framework */; };
 		DDB42DC2159282650046ED41 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDB42DC1159282650046ED41 /* QuartzCore.framework */; };
 		DDB42DD6159288600046ED41 /* MBBOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB42DD5159288600046ED41 /* MBBOptionsViewController.m */; };
+		DDE01A8915A3B4FB00FD2068 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDE01A8815A3B4FB00FD2068 /* Entitlements.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		DDB42DC1159282650046ED41 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DDB42DD41592885F0046ED41 /* MBBOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBBOptionsViewController.h; sourceTree = "<group>"; };
 		DDB42DD5159288600046ED41 /* MBBOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBBOptionsViewController.m; sourceTree = "<group>"; };
+		DDE01A8815A3B4FB00FD2068 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 				DDB42D8C15927EA50046ED41 /* InfoPlist.strings */,
 				DDB42D8F15927EA50046ED41 /* main.m */,
 				DDB42D9115927EA50046ED41 /* MapBox Bench-Prefix.pch */,
+				DDE01A8815A3B4FB00FD2068 /* Entitlements.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				DD19923A1593A06200C1C0CF /* bench.png in Resources */,
 				DD19923B1593A06200C1C0CF /* bench_ipad.png in Resources */,
 				DD19923C1593A06200C1C0CF /* bench_ipad@2x.png in Resources */,
+				DDE01A8915A3B4FB00FD2068 /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +431,43 @@
 			};
 			name = Release;
 		};
+		DDE01A8A15A3B50A00FD2068 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		DDE01A8B15A3B50A00FD2068 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MapBox Bench/MapBox Bench-Prefix.pch";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/MapBox-iOS-SDK\"/**";
+				INFOPLIST_FILE = "MapBox Bench/MapBox Bench-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = Bench;
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -435,6 +476,7 @@
 			buildConfigurations = (
 				DDB42D9E15927EA60046ED41 /* Debug */,
 				DDB42D9F15927EA60046ED41 /* Release */,
+				DDE01A8A15A3B50A00FD2068 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -444,6 +486,7 @@
 			buildConfigurations = (
 				DDB42DA115927EA60046ED41 /* Debug */,
 				DDB42DA215927EA60046ED41 /* Release */,
+				DDE01A8B15A3B50A00FD2068 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

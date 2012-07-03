@@ -10,6 +10,29 @@
 
 #import "MBBCommon.h"
 
+typedef enum {
+    MBBSectionRetina               = 0,
+    MBBSectionConcurrencyMethod    = 1,
+    MBBSectionUserLocationServices = 2,
+    MBBSectionDebugging            = 3,
+    MBBSectionTileJSON             = 4,
+    MBBSectionMapKit               = 5,
+    MBBSectionLatency              = 6,
+} MBBSection;
+
+typedef enum {
+    MBBSwitchRetina       = 0,
+    MBBSwitchUserTracking = 1,
+    MBBSwitchCenterMap    = 2,
+    MBBSwitchShowTiles    = 3,
+    MBBSwitchUseMapKit    = 4,
+} MBBSwitch;
+
+typedef enum {
+    MBBAlertTileJSON = 0,
+    MBBAlertLatency  = 1,
+} MBBAlert;
+
 @implementation MBBOptionsViewController
 
 - (void)viewDidLoad
@@ -38,19 +61,19 @@
     
     switch (sender.tag)
     {
-        case 1:
+        case MBBSwitchRetina:
         {
             defaultName = @"retina";
             
             break;
         }
-        case 2:
+        case MBBSwitchUserTracking:
         {
             defaultName = @"userTracking";
             
             break;
         }
-        case 3:
+        case MBBSwitchCenterMap:
         {
             defaultName = @"centerMap";
 
@@ -62,13 +85,13 @@
             
             break;
         }
-        case 4:
+        case MBBSwitchShowTiles:
         {
             defaultName = @"showTiles";
             
             break;
         }
-        case 5:
+        case MBBSwitchUseMapKit:
         {
             defaultName = @"useMapKit";
 
@@ -93,31 +116,31 @@
 {
     switch (section)
     {
-        case 0:
+        case MBBSectionRetina:
         {
             return ([MBBCommon isRetinaCapable] ? 1 : 0);
         }
-        case 1:
+        case MBBSectionConcurrencyMethod:
         {
             return 3;
         }
-        case 2:
+        case MBBSectionUserLocationServices:
         {
             return 2;
         }
-        case 3:
+        case MBBSectionDebugging:
         {
             return 1;
         }
-        case 4:
+        case MBBSectionTileJSON:
         {
             return 1;
         }
-        case 5:
+        case MBBSectionMapKit:
         {
             return 1;
         }
-        case 6:
+        case MBBSectionLatency:
         {
             return 1;
         }
@@ -130,31 +153,31 @@
 {
     switch (section)
     {
-        case 0:
+        case MBBSectionRetina:
         {
             return @"Retina";
         }
-        case 1:
+        case MBBSectionConcurrencyMethod:
         {
             return @"Concurrency";
         }
-        case 2:
+        case MBBSectionUserLocationServices:
         {
             return @"User Location Services";
         }
-        case 3:
+        case MBBSectionDebugging:
         {
             return @"Debugging";
         }
-        case 4:
+        case MBBSectionTileJSON:
         {
             return @"TileJSON URL";
         }
-        case 5:
+        case MBBSectionMapKit:
         {
             return @"MapKit Debug Layer";
         }
-        case 6:
+        case MBBSectionLatency:
         {
             return @"Artificial latency";
         }
@@ -169,7 +192,7 @@
     
     switch (indexPath.section)
     {
-        case 0:
+        case MBBSectionRetina:
         {
             UISwitch *retinaSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             
@@ -177,7 +200,7 @@
             
             retinaSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
             
-            retinaSwitch.tag = 1;
+            retinaSwitch.tag = MBBSwitchRetina;
             
             cell.accessoryView = retinaSwitch;
             
@@ -187,7 +210,7 @@
             
             break;
         }
-        case 1:
+        case MBBSectionConcurrencyMethod:
         {
             int concurrencyMethod = [[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"];
             
@@ -220,7 +243,7 @@
             
             break;
         }
-        case 2:
+        case MBBSectionUserLocationServices:
         {
             if (indexPath.row == 0)
             {
@@ -230,7 +253,7 @@
                 
                 userTrackingSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
                 
-                userTrackingSwitch.tag = 2;
+                userTrackingSwitch.tag = MBBSwitchUserTracking;
                 
                 cell.accessoryView = userTrackingSwitch;
                 
@@ -246,7 +269,7 @@
                 
                 centerMapSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"centerMapEnabled"];
                 
-                centerMapSwitch.tag = 3;
+                centerMapSwitch.tag = MBBSwitchCenterMap;
                 
                 cell.accessoryView = centerMapSwitch;
                 
@@ -257,7 +280,7 @@
             
             break;
         }
-        case 3:
+        case MBBSectionDebugging:
         {
             UISwitch *showTilesSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             
@@ -265,7 +288,7 @@
             
             showTilesSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
             
-            showTilesSwitch.tag = 4;
+            showTilesSwitch.tag = MBBSwitchShowTiles;
             
             cell.accessoryView = showTilesSwitch;
             
@@ -275,7 +298,7 @@
             
             break;
         }
-        case 4:
+        case MBBSectionTileJSON:
         {
             cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             
@@ -288,7 +311,7 @@
             
             break;
         }
-        case 5:
+        case MBBSectionMapKit:
         {
             UISwitch *useMapKitSwitch = [[UISwitch alloc] initWithFrame:CGRectZero];
             
@@ -296,7 +319,7 @@
             
             useMapKitSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"];
             
-            useMapKitSwitch.tag = 5;
+            useMapKitSwitch.tag = MBBSwitchUseMapKit;
             
             cell.accessoryView = useMapKitSwitch;
             
@@ -306,7 +329,7 @@
             
             break;
         }
-        case 6:
+        case MBBSectionLatency:
         {
             cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             
@@ -332,10 +355,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section != 5 && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
+    if (section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
         return 0;
     
-    if (section == 0 && ! [MBBCommon isRetinaCapable])
+    if (section == MBBSectionRetina && ! [MBBCommon isRetinaCapable])
         return 0;
     
     return [tableView sectionHeaderHeight];
@@ -343,7 +366,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section != 5 && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
+    if (indexPath.section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
         return 0;
     
     return [tableView rowHeight];
@@ -355,7 +378,7 @@
     
     switch (indexPath.section)
     {
-        case 1:
+        case MBBSectionConcurrencyMethod:
         {
             if ( ! [[tableView cellForRowAtIndexPath:indexPath].textLabel.textColor isEqual:[UIColor lightGrayColor]])
             {
@@ -373,7 +396,7 @@
             break;
         }
         
-        case 4:
+        case MBBSectionTileJSON:
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TileJSON URL"
                                                             message:@"Enter a custom TileJSON URL to load or just select the default:"
@@ -381,7 +404,7 @@
                                                   cancelButtonTitle:@"Use Default"
                                                   otherButtonTitles:@"Use Entered", nil];
             
-            alert.tag = 1;
+            alert.tag = MBBAlertTileJSON;
             
             alert.alertViewStyle = UIAlertViewStylePlainTextInput;
             
@@ -392,7 +415,7 @@
             
             break;
         }
-        case 6:
+        case MBBSectionLatency:
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Artificial Latency"
                                                             message:@"Enter a value in milliseconds:"
@@ -400,7 +423,7 @@
                                                   cancelButtonTitle:@"None"
                                                   otherButtonTitles:@"Apply", nil];
             
-            alert.tag = 2;
+            alert.tag = MBBAlertLatency;
             
             alert.alertViewStyle = UIAlertViewStylePlainTextInput;
             
@@ -429,7 +452,7 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (alertView.tag == 1)
+    if (alertView.tag == MBBAlertTileJSON)
     {
         if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
         {
@@ -446,7 +469,7 @@
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationFade];
         }
     }
-    else if (alertView.tag == 2)
+    else if (alertView.tag == MBBAlertLatency)
     {
         if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"])
         {

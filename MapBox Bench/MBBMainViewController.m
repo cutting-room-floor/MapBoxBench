@@ -248,7 +248,7 @@
             
             self.optionsPopover.delegate = self;
             
-            [self.optionsPopover setPopoverContentSize:CGSizeMake(400, 600)];
+            [self.optionsPopover setPopoverContentSize:CGSizeMake(400, self.optionsPopover.popoverContentSize.height)];
             
             [self.optionsPopover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }

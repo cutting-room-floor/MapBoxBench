@@ -20,6 +20,8 @@
 #define kNormalSourceURL [NSURL URLWithString:@"http://a.tiles.mapbox.com/v3/justin.map-s2effxa8.jsonp"] // see https://tiles.mapbox.com/justin/map/map-s2effxa8
 #define kRetinaSourceURL [NSURL URLWithString:@"http://a.tiles.mapbox.com/v3/justin.map-kswgei2n.jsonp"] // see https://tiles.mapbox.com/justin/map/map-kswgei2n
 
+#define kHelpURL [NSURL URLWithString:@"https://github.com/developmentseed/MapBoxBench/blob/master/README.md"]
+
 #pragma mark -
 
 @interface RMMapView (BenchExtensions)
@@ -101,6 +103,17 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMap:)         name:MBBOptionsDismissedNotification     object:nil];
     
+    UIButton *helpButton = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 50, 50, 50)];
+    
+    [helpButton setTitle:@"?" forState:UIControlStateNormal];
+    [helpButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [helpButton setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.25]];
+    [helpButton setShowsTouchWhenHighlighted:YES];
+    [helpButton setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin];
+    [helpButton addTarget:self action:@selector(showHelp:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview: helpButton];
+    
     operationCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
     
     operationCountLabel.textColor = [UIColor blackColor];
@@ -140,6 +153,11 @@
 }
 
 #pragma mark -
+
+- (void)showHelp:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:kHelpURL];
+}
 
 - (void)updateOperationCount:(NSTimer *)timer
 {

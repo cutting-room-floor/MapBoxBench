@@ -21,7 +21,7 @@ static NSString *const MBBDefaultsKeyTileJSONURL             = @"tileJSONURL";
 static NSString *const MBBDefaultsKeyShowMapKit              = @"useMapKitEnabled";
 static NSString *const MBBDefaultsKeyLatency                 = @"artificialLatency";
 
-#define kDefaultTilePrefetchRadius 2
+#define kDefaultTilePrefetchRadius 1
 #define kDefaultMaxConcurrentOps   6
 
 typedef enum {

@@ -59,6 +59,10 @@
 #pragma mark -
 
 @implementation MBBMainViewController
+{
+    UILabel *operationCountLabel;
+    NSTimer *operationLabelTimer;
+}
 
 @synthesize mapView;
 @synthesize optionsPopover;
@@ -97,6 +101,17 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMap:)         name:MBBOptionsDismissedNotification     object:nil];
     
+    operationCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
+    
+    operationCountLabel.textColor = [UIColor blackColor];
+    operationCountLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+
+    operationCountLabel.adjustsFontSizeToFitWidth = YES;
+    
+    [self.view addSubview:operationCountLabel];
+    
+    operationLabelTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(updateOperationCount:) userInfo:nil repeats:YES];
+    
     [self reloadMap:self];
 }
 
@@ -110,11 +125,23 @@
 
 - (void)dealloc
 {
+    [operationLabelTimer invalidate];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MBBOptionsDismissedNotification     object:nil];
 }
 
 #pragma mark -
+
+- (void)updateOperationCount:(NSTimer *)timer
+{
+    int activeCount = [[(NSObject *)self.mapView.tileSource valueForKey:@"executingOperationCount"] intValue];
+    int totalCount  = [[(NSObject *)self.mapView.tileSource valueForKey:@"totalOperationCount"]     intValue];
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(activeCount > 0)];
+    
+    operationCountLabel.text = [NSString stringWithFormat:@" %i / %i ", activeCount, totalCount];
+}
 
 - (void)defaultsDidChange:(NSNotification *)notification
 {
@@ -142,10 +169,12 @@
         self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
         self.mapView.userTrackingMode            =   ([[NSUserDefaults standardUserDefaults] boolForKey:@"centerMapEnabled"] ? RMUserTrackingModeFollow : RMUserTrackingModeNone);
                                                         
-    //    self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
+        self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
         
-        NSLog(@"debugTiles: %i", [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"]);
-        NSLog(@"artificialLatency: %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"]);
+        self.mapView.loadAsynchronously          = ([[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"] == 1);
+        self.mapView.prefetchTileRadius          = 2;
+        self.mapView.maxConcurrentOperationCount = 6;
+        self.mapView.artificialLatency           = [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"];
         
         [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
         

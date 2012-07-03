@@ -1,6 +1,6 @@
 # MapBox Bench
 
-This is a benchmarking tool for testing iOS tile loading from our (or other) servers. 
+This is a benchmarking tool for testing iOS tile loading from our (or other) servers. It runs on both iPad and iPhone as a universal app. 
 
 ## Options
 

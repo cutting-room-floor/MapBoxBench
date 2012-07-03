@@ -86,9 +86,11 @@
     
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     
-    self.mapView.boundingMask = RMMapMinHeightBound;
+    self.mapView.boundingMask = RMMapMinWidthBound;
     
     self.mapView.viewControllerPresentingAttribution = self;
+    
+    [self.mapView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
     
     [self.view addSubview:self.mapView];
     

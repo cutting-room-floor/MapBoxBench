@@ -112,6 +112,14 @@
     
     operationLabelTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(updateOperationCount:) userInfo:nil repeats:YES];
     
+    if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:@"prefetchTileRadius"])
+        [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"prefetchTileRadius"];
+
+    if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:@"maxConcurrentOperationCount"])
+        [[NSUserDefaults standardUserDefaults] setInteger:6 forKey:@"maxConcurrentOperationCount"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     [self reloadMap:self];
 }
 
@@ -172,8 +180,8 @@
         self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
         
         self.mapView.loadAsynchronously          = ([[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"] == 1);
-        self.mapView.prefetchTileRadius          = 2;
-        self.mapView.maxConcurrentOperationCount = 6;
+        self.mapView.prefetchTileRadius          = [[NSUserDefaults standardUserDefaults] integerForKey:@"prefetchTileRadius"];
+        self.mapView.maxConcurrentOperationCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"maxConcurrentOperationCount"];
         self.mapView.artificialLatency           = [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"];
         
         [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];

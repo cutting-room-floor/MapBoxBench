@@ -105,7 +105,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMap:)         name:MBBOptionsDismissedNotification     object:nil];
     
-    UIButton *helpButton = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 50, 50, 50)];
+    UIButton *helpButton = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 40, 40, 40)];
     
     [helpButton setTitle:@"?" forState:UIControlStateNormal];
     [helpButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

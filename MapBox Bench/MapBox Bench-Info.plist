@@ -53,7 +53,7 @@
 				<string>bench_ipad@2x.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
-			<false/>
+			<true/>
 		</dict>
 	</dict>
 </dict>

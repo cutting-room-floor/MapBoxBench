@@ -10,6 +10,17 @@
 
 static NSString *const MBBOptionsDismissedNotification = @"MBBOptionsChangedNotification";
 
+static NSString *const MBBDefaultsKeyRetinaEnabled           = @"retinaEnabled";
+static NSString *const MBBDefaultsKeyConcurrencyMethod       = @"concurrencyMethod";
+static NSString *const MBBDefaultsKeyPrefetchTileRadius      = @"prefetchTileRadius";
+static NSString *const MBBDefaultsKeyMaxConcurrentOperations = @"maxConcurrentOperationCount";
+static NSString *const MBBDefaultsKeyShowUserLocation        = @"userTrackingEnabled";
+static NSString *const MBBDefaultsKeyCenterUserLocation      = @"centerMapEnabled";
+static NSString *const MBBDefaultsKeyDebugTiles              = @"showTilesEnabled";
+static NSString *const MBBDefaultsKeyTileJSONURL             = @"tileJSONURL";
+static NSString *const MBBDefaultsKeyShowMapKit              = @"useMapKitEnabled";
+static NSString *const MBBDefaultsKeyLatency                 = @"artificialLatency";
+
 #define kDefaultTilePrefetchRadius 2
 #define kDefaultMaxConcurrentOps   6
 

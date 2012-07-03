@@ -68,37 +68,43 @@ typedef enum {
     {
         case MBBSwitchRetina:
         {
-            defaultName = @"retina";
+            defaultName = MBBDefaultsKeyRetinaEnabled;
             
             break;
         }
         case MBBSwitchUserTracking:
         {
-            defaultName = @"userTracking";
+            defaultName = MBBDefaultsKeyShowUserLocation;
             
+            if ( ! sender.on)
+            {
+                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:MBBDefaultsKeyCenterUserLocation];
+                [((UISwitch *)[self.tableView viewWithTag:MBBSwitchCenterMap]) setOn:NO animated:YES];
+            }
+
             break;
         }
         case MBBSwitchCenterMap:
         {
-            defaultName = @"centerMap";
+            defaultName = MBBDefaultsKeyCenterUserLocation;
 
             if (sender.on)
             {
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"userTrackingEnabled"];
-                [((UISwitch *)[self.tableView viewWithTag:2]) setOn:YES animated:YES];
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:MBBDefaultsKeyShowUserLocation];
+                [((UISwitch *)[self.tableView viewWithTag:MBBSwitchUserTracking]) setOn:YES animated:YES];
             }
             
             break;
         }
         case MBBSwitchShowTiles:
         {
-            defaultName = @"showTiles";
+            defaultName = MBBDefaultsKeyDebugTiles;
             
             break;
         }
         case MBBSwitchUseMapKit:
         {
-            defaultName = @"useMapKit";
+            defaultName = MBBDefaultsKeyShowMapKit;
 
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1), dispatch_get_main_queue(), ^(void)
             {
@@ -109,7 +115,7 @@ typedef enum {
         }
     }
     
-    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:[NSString stringWithFormat:@"%@Enabled", defaultName]];
+    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:defaultName];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -214,7 +220,7 @@ typedef enum {
             
             retinaSwitch.onTintColor = [MBBCommon tintColor];
             
-            retinaSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
+            retinaSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyRetinaEnabled];
             
             retinaSwitch.tag = MBBSwitchRetina;
             
@@ -228,7 +234,7 @@ typedef enum {
         }
         case MBBSectionConcurrencyMethod:
         {
-            int concurrencyMethod = [[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"];
+            int concurrencyMethod = [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod];
             
             switch (indexPath.row)
             {
@@ -265,13 +271,13 @@ typedef enum {
             {
                 cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 
-                cell.textLabel.text = [NSString stringWithFormat:@"Prefetch Radius: %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"prefetchTileRadius"]];
+                cell.textLabel.text = [NSString stringWithFormat:@"Prefetch Radius: %i", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyPrefetchTileRadius]];
             }
             else if (indexPath.row == 1)
             {
                 cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 
-                cell.textLabel.text = [NSString stringWithFormat:@"Max Concurrency: %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"maxConcurrentOperationCount"]];
+                cell.textLabel.text = [NSString stringWithFormat:@"Max Concurrency: %i", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMaxConcurrentOperations]];
             }
             
             break;
@@ -284,7 +290,7 @@ typedef enum {
                 
                 userTrackingSwitch.onTintColor = [MBBCommon tintColor];
                 
-                userTrackingSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
+                userTrackingSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowUserLocation];
                 
                 userTrackingSwitch.tag = MBBSwitchUserTracking;
                 
@@ -300,7 +306,7 @@ typedef enum {
                 
                 centerMapSwitch.onTintColor = [MBBCommon tintColor];
                 
-                centerMapSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"centerMapEnabled"];
+                centerMapSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyCenterUserLocation];
                 
                 centerMapSwitch.tag = MBBSwitchCenterMap;
                 
@@ -319,7 +325,7 @@ typedef enum {
             
             showTilesSwitch.onTintColor = [MBBCommon tintColor];
             
-            showTilesSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
+            showTilesSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyDebugTiles];
             
             showTilesSwitch.tag = MBBSwitchShowTiles;
             
@@ -335,8 +341,8 @@ typedef enum {
         {
             cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             
-            if ([[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
-                cell.textLabel.text = [[[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"] absoluteString];
+            if ([[NSUserDefaults standardUserDefaults] URLForKey:MBBDefaultsKeyTileJSONURL])
+                cell.textLabel.text = [[[NSUserDefaults standardUserDefaults] URLForKey:MBBDefaultsKeyTileJSONURL] absoluteString];
             else
                 cell.textLabel.text = @"Production MapBox Streets";
             
@@ -350,7 +356,7 @@ typedef enum {
             
             useMapKitSwitch.onTintColor = [MBBCommon tintColor];
             
-            useMapKitSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"];
+            useMapKitSwitch.on = [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit];
             
             useMapKitSwitch.tag = MBBSwitchUseMapKit;
             
@@ -366,8 +372,8 @@ typedef enum {
         {
             cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
             
-            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"])
-                cell.textLabel.text = [NSString stringWithFormat:@"%ims", [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"]];
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyLatency])
+                cell.textLabel.text = [NSString stringWithFormat:@"%ims", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyLatency]];
             else
                 cell.textLabel.text = @"None";
                         
@@ -391,10 +397,10 @@ typedef enum {
     if (section == MBBSectionRetina && ! [MBBCommon isRetinaCapable])
         return 0;
 
-    if (section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"] != MBBConcurrencyMethodAsynchronous)
+    if (section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronous)
         return 0;
     
-    if (section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
+    if (section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit])
         return 0;
     
     return [tableView sectionHeaderHeight];
@@ -402,10 +408,10 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"] != MBBConcurrencyMethodAsynchronous)
+    if (indexPath.section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronous)
         return 0;
     
-    if (indexPath.section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
+    if (indexPath.section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit])
         return 0;
     
     return [tableView rowHeight];
@@ -421,7 +427,7 @@ typedef enum {
         {
             if ( ! [[tableView cellForRowAtIndexPath:indexPath].textLabel.textColor isEqual:[UIColor lightGrayColor]])
             {
-                [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"concurrencyMethod"];
+                [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:MBBDefaultsKeyConcurrencyMethod];
                 [[NSUserDefaults standardUserDefaults] synchronize];
 
                 [tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(MBBSectionConcurrencyMethod, 2)] withRowAnimation:UITableViewRowAnimationFade];
@@ -435,34 +441,34 @@ typedef enum {
             if (indexPath.row == 0)
             {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Prefetch Radius"
-                                                                message:@"Enter a number or just select the default:"
+                                                                message:@"Enter a number of tiles or just select the default:"
                                                                delegate:self
-                                                      cancelButtonTitle:@"Use Default"
+                                                      cancelButtonTitle:[NSString stringWithFormat:@"Use Default (%i)", kDefaultTilePrefetchRadius]
                                                       otherButtonTitles:@"Use Entered", nil];
                 
                 alert.tag = MBBAlertConcurrencyPrefetch;
                 
                 alert.alertViewStyle = UIAlertViewStylePlainTextInput;
                 
-                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"prefetchTileRadius"])
-                    [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"prefetchTileRadius"]];
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyPrefetchTileRadius])
+                    [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyPrefetchTileRadius]];
                 
                 [alert show];
             }
             else if (indexPath.row == 1)
             {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Max Concurrency"
-                                                                message:@"Enter a number or just select the default:"
+                                                                message:@"Enter a number of threads or just select the default:"
                                                                delegate:self
-                                                      cancelButtonTitle:@"Use Default"
+                                                      cancelButtonTitle:[NSString stringWithFormat:@"Use Default (%i)", kDefaultMaxConcurrentOps]
                                                       otherButtonTitles:@"Use Entered", nil];
                 
                 alert.tag = MBBAlertConcurrencyMaxOps;
                 
                 alert.alertViewStyle = UIAlertViewStylePlainTextInput;
                 
-                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"maxConcurrentOperationCount"])
-                    [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"maxConcurrentOperationCount"]];
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMaxConcurrentOperations])
+                    [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMaxConcurrentOperations]];
                 
                 [alert show];
             }
@@ -482,8 +488,8 @@ typedef enum {
             
             alert.alertViewStyle = UIAlertViewStylePlainTextInput;
             
-            if ([[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
-                [alert textFieldAtIndex:0].text = [[[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"] absoluteString];
+            if ([[NSUserDefaults standardUserDefaults] URLForKey:MBBDefaultsKeyTileJSONURL])
+                [alert textFieldAtIndex:0].text = [[[NSUserDefaults standardUserDefaults] URLForKey:MBBDefaultsKeyTileJSONURL] absoluteString];
             
             [alert show];
             
@@ -495,14 +501,14 @@ typedef enum {
                                                             message:@"Enter a value in milliseconds:"
                                                            delegate:self
                                                   cancelButtonTitle:@"None"
-                                                  otherButtonTitles:@"Apply", nil];
+                                                  otherButtonTitles:@"Use Entered", nil];
             
             alert.tag = MBBAlertLatency;
             
             alert.alertViewStyle = UIAlertViewStylePlainTextInput;
             
-            if ([[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"])
-                [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"]];
+            if ([[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyLatency])
+                [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyLatency]];
             
             [alert show];
             
@@ -528,16 +534,16 @@ typedef enum {
 {
     if (alertView.tag == MBBAlertConcurrencyPrefetch)
     {
-        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] objectForKey:@"prefetchTileRadius"])
+        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyPrefetchTileRadius])
         {
-            [[NSUserDefaults standardUserDefaults] setInteger:kDefaultTilePrefetchRadius forKey:@"prefetchTileRadius"];
+            [[NSUserDefaults standardUserDefaults] setInteger:kDefaultTilePrefetchRadius forKey:MBBDefaultsKeyPrefetchTileRadius];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
         }
         else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [[alertView textFieldAtIndex:0].text integerValue])
         {
-            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:@"prefetchTileRadius"];
+            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:MBBDefaultsKeyPrefetchTileRadius];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
@@ -545,16 +551,16 @@ typedef enum {
     }
     else if (alertView.tag == MBBAlertConcurrencyMaxOps)
     {
-        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] objectForKey:@"maxConcurrentOperationCount"])
+        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMaxConcurrentOperations])
         {
-            [[NSUserDefaults standardUserDefaults] setInteger:kDefaultMaxConcurrentOps forKey:@"maxConcurrentOperationCount"];
+            [[NSUserDefaults standardUserDefaults] setInteger:kDefaultMaxConcurrentOps forKey:MBBDefaultsKeyMaxConcurrentOperations];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
         }
         else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [[alertView textFieldAtIndex:0].text integerValue])
         {
-            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:@"maxConcurrentOperationCount"];
+            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:MBBDefaultsKeyMaxConcurrentOperations];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
@@ -562,16 +568,16 @@ typedef enum {
     }
     else if (alertView.tag == MBBAlertTileJSON)
     {
-        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
+        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] URLForKey:MBBDefaultsKeyTileJSONURL])
         {
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tileJSONURL"];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:MBBDefaultsKeyTileJSONURL];
             [[NSUserDefaults standardUserDefaults] synchronize];
 
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionTileJSON] withRowAnimation:UITableViewRowAnimationFade];
         }
         else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [NSURL URLWithString:[alertView textFieldAtIndex:0].text])
         {
-            [[NSUserDefaults standardUserDefaults] setURL:[NSURL URLWithString:[alertView textFieldAtIndex:0].text] forKey:@"tileJSONURL"];
+            [[NSUserDefaults standardUserDefaults] setURL:[NSURL URLWithString:[alertView textFieldAtIndex:0].text] forKey:MBBDefaultsKeyTileJSONURL];
             [[NSUserDefaults standardUserDefaults] synchronize];
         
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionTileJSON] withRowAnimation:UITableViewRowAnimationFade];
@@ -579,16 +585,16 @@ typedef enum {
     }
     else if (alertView.tag == MBBAlertLatency)
     {
-        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"])
+        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyLatency])
         {
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"artificialLatency"];
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:MBBDefaultsKeyLatency];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionLatency] withRowAnimation:UITableViewRowAnimationFade];
         }
         else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [[alertView textFieldAtIndex:0].text integerValue])
         {
-            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:@"artificialLatency"];
+            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:MBBDefaultsKeyLatency];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionLatency] withRowAnimation:UITableViewRowAnimationFade];

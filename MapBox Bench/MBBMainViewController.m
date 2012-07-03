@@ -72,7 +72,7 @@
 {
     [super viewDidLoad];
 
-    RMMapBoxSource *tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"] ? kRetinaSourceURL : kNormalSourceURL)];
+    RMMapBoxSource *tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyRetinaEnabled] ? kRetinaSourceURL : kNormalSourceURL)];
     
     self.mapView = [[RMMapView alloc] initWithFrame:self.view.bounds andTilesource:tileSource];
     
@@ -112,11 +112,11 @@
     
     operationLabelTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(updateOperationCount:) userInfo:nil repeats:YES];
     
-    if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:@"prefetchTileRadius"])
-        [[NSUserDefaults standardUserDefaults] setInteger:kDefaultTilePrefetchRadius forKey:@"prefetchTileRadius"];
+    if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyPrefetchTileRadius])
+        [[NSUserDefaults standardUserDefaults] setInteger:kDefaultTilePrefetchRadius forKey:MBBDefaultsKeyPrefetchTileRadius];
 
-    if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:@"maxConcurrentOperationCount"])
-        [[NSUserDefaults standardUserDefaults] setInteger:kDefaultMaxConcurrentOps   forKey:@"maxConcurrentOperationCount"];
+    if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMaxConcurrentOperations])
+        [[NSUserDefaults standardUserDefaults] setInteger:kDefaultMaxConcurrentOps   forKey:MBBDefaultsKeyMaxConcurrentOperations];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     
@@ -165,28 +165,28 @@
     {
         RMMapBoxSource *tileSource;
         
-        if ([[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
-            tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:[[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"]];
+        if ([[NSUserDefaults standardUserDefaults] URLForKey:MBBDefaultsKeyTileJSONURL])
+            tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:[[NSUserDefaults standardUserDefaults] URLForKey:MBBDefaultsKeyTileJSONURL]];
         else
-            tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"] ? kRetinaSourceURL : kNormalSourceURL)];
+            tileSource = [[RMMapBoxSource alloc] initWithReferenceURL:([MBBCommon isRetinaCapable] && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyRetinaEnabled] ? kRetinaSourceURL : kNormalSourceURL)];
 
         self.mapView.tileSource = tileSource;
         
-        self.mapView.adjustTilesForRetinaDisplay = ! [[NSUserDefaults standardUserDefaults] boolForKey:@"retinaEnabled"];
+        self.mapView.adjustTilesForRetinaDisplay = ! [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyRetinaEnabled];
 
-        self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:@"userTrackingEnabled"];
-        self.mapView.userTrackingMode            =   ([[NSUserDefaults standardUserDefaults] boolForKey:@"centerMapEnabled"] ? RMUserTrackingModeFollow : RMUserTrackingModeNone);
+        self.mapView.showsUserLocation           =   [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowUserLocation];
+        self.mapView.userTrackingMode            =   ([[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyCenterUserLocation] ? RMUserTrackingModeFollow : RMUserTrackingModeNone);
                                                         
-        self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
+        self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyDebugTiles];
         
-        self.mapView.loadAsynchronously          = ([[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"] == MBBConcurrencyMethodAsynchronous);
-        self.mapView.prefetchTileRadius          = [[NSUserDefaults standardUserDefaults] integerForKey:@"prefetchTileRadius"];
-        self.mapView.maxConcurrentOperationCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"maxConcurrentOperationCount"];
-        self.mapView.artificialLatency           = [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"];
+        self.mapView.loadAsynchronously          = ([[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] == MBBConcurrencyMethodAsynchronous);
+        self.mapView.prefetchTileRadius          = [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyPrefetchTileRadius];
+        self.mapView.maxConcurrentOperationCount = [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMaxConcurrentOperations];
+        self.mapView.artificialLatency           = [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyLatency];
         
         [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit])
         {
             if ( ! [[[self.view subviews] valueForKeyPath:@"class"] containsObject:[MKMapView class]])
             {

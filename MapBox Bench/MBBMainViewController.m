@@ -35,10 +35,13 @@
 - (void)emptyCacheAndForceRefresh
 {
     [self removeAllCachedImages];
-    
-    tiledLayerView.layer.contents = nil;
-    
-    [tiledLayerView.layer setNeedsDisplay];
+
+    for (RMMapTiledLayerView *tiledLayerView in [self valueForKeyPath:@"_tiledLayersSuperview.subviews"])
+    {
+        tiledLayerView.layer.contents = nil;
+
+        [tiledLayerView.layer setNeedsDisplay];
+    }
 }
 
 @end

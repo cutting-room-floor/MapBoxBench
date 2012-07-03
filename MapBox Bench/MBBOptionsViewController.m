@@ -10,15 +10,24 @@
 
 #import "MBBCommon.h"
 
+#define MBBSectionCount 8;
+
 typedef enum {
     MBBSectionRetina               = 0,
     MBBSectionConcurrencyMethod    = 1,
-    MBBSectionUserLocationServices = 2,
-    MBBSectionDebugging            = 3,
-    MBBSectionTileJSON             = 4,
-    MBBSectionMapKit               = 5,
-    MBBSectionLatency              = 6,
+    MBBSectionConcurrencyOptions   = 2,
+    MBBSectionUserLocationServices = 3,
+    MBBSectionDebugging            = 4,
+    MBBSectionTileJSON             = 5,
+    MBBSectionMapKit               = 6,
+    MBBSectionLatency              = 7,
 } MBBSection;
+
+typedef enum {
+    MBBConcurrencyMethodProduction   = 0,
+    MBBConcurrencyMethodAsynchronous = 1,
+    MBBConcurrencyMethodBatched      = 2,
+} MBBConcurrencyMethod;
 
 typedef enum {
     MBBSwitchRetina       = 0,
@@ -29,8 +38,10 @@ typedef enum {
 } MBBSwitch;
 
 typedef enum {
-    MBBAlertTileJSON = 0,
-    MBBAlertLatency  = 1,
+    MBBAlertConcurrencyPrefetch = 0,
+    MBBAlertConcurrencyMaxOps   = 1,
+    MBBAlertTileJSON            = 2,
+    MBBAlertLatency             = 3,
 } MBBAlert;
 
 @implementation MBBOptionsViewController
@@ -112,7 +123,7 @@ typedef enum {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 7;
+    return MBBSectionCount;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -126,6 +137,10 @@ typedef enum {
         case MBBSectionConcurrencyMethod:
         {
             return 3;
+        }
+        case MBBSectionConcurrencyOptions:
+        {
+            return 2;
         }
         case MBBSectionUserLocationServices:
         {
@@ -163,6 +178,10 @@ typedef enum {
         case MBBSectionConcurrencyMethod:
         {
             return @"Concurrency";
+        }
+        case MBBSectionConcurrencyOptions:
+        {
+            return @"Concurrency Options";
         }
         case MBBSectionUserLocationServices:
         {
@@ -222,26 +241,43 @@ typedef enum {
                 case 0:
                 {
                     cell.textLabel.text = @"Production default";
-                    cell.accessoryType  = (concurrencyMethod == 0 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+                    cell.accessoryType  = (concurrencyMethod == MBBConcurrencyMethodProduction ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
 
                     break;
                 }
                 case 1:
                 {
                     cell.textLabel.text = @"Asynchronous";
-                    cell.accessoryType  = (concurrencyMethod == 1 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+                    cell.accessoryType  = (concurrencyMethod == MBBConcurrencyMethodAsynchronous ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
 
                     break;
                 }
                 case 2:
                 {
                     cell.textLabel.text = @"Batched like MapKit";
-                    cell.accessoryType  = (concurrencyMethod == 2 ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+                    cell.accessoryType  = (concurrencyMethod == MBBConcurrencyMethodBatched ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
 
                     cell.textLabel.textColor = [UIColor lightGrayColor];
                     
                     break;
                 }
+            }
+            
+            break;
+        }
+        case MBBSectionConcurrencyOptions:
+        {
+            if (indexPath.row == 0)
+            {
+                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                
+                cell.textLabel.text = [NSString stringWithFormat:@"Prefetch Radius: %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"prefetchTileRadius"]];
+            }
+            else if (indexPath.row == 1)
+            {
+                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                
+                cell.textLabel.text = [NSString stringWithFormat:@"Max Concurrency: %i", [[NSUserDefaults standardUserDefaults] integerForKey:@"maxConcurrentOperationCount"]];
             }
             
             break;
@@ -358,10 +394,13 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if (section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
+    if (section == MBBSectionRetina && ! [MBBCommon isRetinaCapable])
+        return 0;
+
+    if (section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"] != MBBConcurrencyMethodAsynchronous)
         return 0;
     
-    if (section == MBBSectionRetina && ! [MBBCommon isRetinaCapable])
+    if (section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
         return 0;
     
     return [tableView sectionHeaderHeight];
@@ -369,6 +408,9 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"] != MBBConcurrencyMethodAsynchronous)
+        return 0;
+    
     if (indexPath.section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:@"useMapKitEnabled"])
         return 0;
     
@@ -388,21 +430,56 @@ typedef enum {
                 [[NSUserDefaults standardUserDefaults] setInteger:indexPath.row forKey:@"concurrencyMethod"];
                 [[NSUserDefaults standardUserDefaults] synchronize];
 
-                NSMutableArray *rowsToReload = [NSMutableArray array];
-                
-                for (int i = 0; i < [tableView numberOfRowsInSection:indexPath.section]; i++)
-                    [rowsToReload addObject:[NSIndexPath indexPathForRow:i inSection:indexPath.section]];
-                
-                [tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationFade];
+                [tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(MBBSectionConcurrencyMethod, 2)] withRowAnimation:UITableViewRowAnimationFade];
             }
             
             break;
         }
         
+        case MBBSectionConcurrencyOptions:
+        {
+            if (indexPath.row == 0)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Prefetch Radius"
+                                                                message:@"Enter a number or just select the default:"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"Use Default"
+                                                      otherButtonTitles:@"Use Entered", nil];
+                
+                alert.tag = MBBAlertConcurrencyPrefetch;
+                
+                alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"prefetchTileRadius"])
+                    [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"prefetchTileRadius"]];
+                
+                [alert show];
+            }
+            else if (indexPath.row == 1)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Max Concurrency"
+                                                                message:@"Enter a number or just select the default:"
+                                                               delegate:self
+                                                      cancelButtonTitle:@"Use Default"
+                                                      otherButtonTitles:@"Use Entered", nil];
+                
+                alert.tag = MBBAlertConcurrencyMaxOps;
+                
+                alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"maxConcurrentOperationCount"])
+                    [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:@"maxConcurrentOperationCount"]];
+                
+                [alert show];
+            }
+            
+            break;
+        }
+            
         case MBBSectionTileJSON:
         {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"TileJSON URL"
-                                                            message:@"Enter a custom TileJSON URL to load or just select the default:"
+                                                            message:@"Enter a custom TileJSON URL or just select the default:"
                                                            delegate:self
                                                   cancelButtonTitle:@"Use Default"
                                                   otherButtonTitles:@"Use Entered", nil];
@@ -455,21 +532,55 @@ typedef enum {
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if (alertView.tag == MBBAlertTileJSON)
+    if (alertView.tag == MBBAlertConcurrencyPrefetch)
+    {
+        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] objectForKey:@"prefetchTileRadius"])
+        {
+            [[NSUserDefaults standardUserDefaults] setInteger:kDefaultTilePrefetchRadius forKey:@"prefetchTileRadius"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [[alertView textFieldAtIndex:0].text integerValue])
+        {
+            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:@"prefetchTileRadius"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
+    else if (alertView.tag == MBBAlertConcurrencyMaxOps)
+    {
+        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] objectForKey:@"maxConcurrentOperationCount"])
+        {
+            [[NSUserDefaults standardUserDefaults] setInteger:kDefaultMaxConcurrentOps forKey:@"maxConcurrentOperationCount"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [[alertView textFieldAtIndex:0].text integerValue])
+        {
+            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:@"maxConcurrentOperationCount"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
+    else if (alertView.tag == MBBAlertTileJSON)
     {
         if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] URLForKey:@"tileJSONURL"])
         {
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"tileJSONURL"];
             [[NSUserDefaults standardUserDefaults] synchronize];
 
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionTileJSON] withRowAnimation:UITableViewRowAnimationFade];
         }
         else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [NSURL URLWithString:[alertView textFieldAtIndex:0].text])
         {
             [[NSUserDefaults standardUserDefaults] setURL:[NSURL URLWithString:[alertView textFieldAtIndex:0].text] forKey:@"tileJSONURL"];
             [[NSUserDefaults standardUserDefaults] synchronize];
         
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:4] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionTileJSON] withRowAnimation:UITableViewRowAnimationFade];
         }
     }
     else if (alertView.tag == MBBAlertLatency)
@@ -479,14 +590,14 @@ typedef enum {
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"artificialLatency"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:6] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionLatency] withRowAnimation:UITableViewRowAnimationFade];
         }
         else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [[alertView textFieldAtIndex:0].text integerValue])
         {
             [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:@"artificialLatency"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:6] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionLatency] withRowAnimation:UITableViewRowAnimationFade];
         }        
     }
 }

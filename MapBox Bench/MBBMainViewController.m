@@ -113,10 +113,10 @@
     operationLabelTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(updateOperationCount:) userInfo:nil repeats:YES];
     
     if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:@"prefetchTileRadius"])
-        [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"prefetchTileRadius"];
+        [[NSUserDefaults standardUserDefaults] setInteger:kDefaultTilePrefetchRadius forKey:@"prefetchTileRadius"];
 
     if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:@"maxConcurrentOperationCount"])
-        [[NSUserDefaults standardUserDefaults] setInteger:6 forKey:@"maxConcurrentOperationCount"];
+        [[NSUserDefaults standardUserDefaults] setInteger:kDefaultMaxConcurrentOps   forKey:@"maxConcurrentOperationCount"];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     

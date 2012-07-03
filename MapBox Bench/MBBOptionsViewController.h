@@ -10,6 +10,9 @@
 
 static NSString *const MBBOptionsDismissedNotification = @"MBBOptionsChangedNotification";
 
+#define kDefaultTilePrefetchRadius 2
+#define kDefaultMaxConcurrentOps   6
+
 @interface MBBOptionsViewController : UITableViewController <UIAlertViewDelegate>
 
 @end

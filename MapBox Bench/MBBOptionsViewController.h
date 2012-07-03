@@ -13,6 +13,12 @@ static NSString *const MBBOptionsDismissedNotification = @"MBBOptionsChangedNoti
 #define kDefaultTilePrefetchRadius 2
 #define kDefaultMaxConcurrentOps   6
 
+typedef enum {
+    MBBConcurrencyMethodProduction   = 0,
+    MBBConcurrencyMethodAsynchronous = 1,
+    MBBConcurrencyMethodBatched      = 2,
+} MBBConcurrencyMethod;
+
 @interface MBBOptionsViewController : UITableViewController <UIAlertViewDelegate>
 
 @end

@@ -179,7 +179,7 @@
                                                         
         self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:@"showTilesEnabled"];
         
-        self.mapView.loadAsynchronously          = ([[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"] == 1);
+        self.mapView.loadAsynchronously          = ([[NSUserDefaults standardUserDefaults] integerForKey:@"concurrencyMethod"] == MBBConcurrencyMethodAsynchronous);
         self.mapView.prefetchTileRadius          = [[NSUserDefaults standardUserDefaults] integerForKey:@"prefetchTileRadius"];
         self.mapView.maxConcurrentOperationCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"maxConcurrentOperationCount"];
         self.mapView.artificialLatency           = [[NSUserDefaults standardUserDefaults] integerForKey:@"artificialLatency"];

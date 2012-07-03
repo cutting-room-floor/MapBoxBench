@@ -24,12 +24,6 @@ typedef enum {
 } MBBSection;
 
 typedef enum {
-    MBBConcurrencyMethodProduction   = 0,
-    MBBConcurrencyMethodAsynchronous = 1,
-    MBBConcurrencyMethodBatched      = 2,
-} MBBConcurrencyMethod;
-
-typedef enum {
     MBBSwitchRetina       = 0,
     MBBSwitchUserTracking = 1,
     MBBSwitchCenterMap    = 2,

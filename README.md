@@ -14,7 +14,7 @@ These are our testbed options for concurrency approaches. For now, choose our re
 
 ### Concurrency Options
 
-If using the experimental modes, configure them here. 
+If using the experimental modes, configure them here. Note that certain combinations can currently deadlock the application. 
 
 #### Prefetch Radius
 

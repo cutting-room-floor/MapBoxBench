@@ -27,7 +27,6 @@ static NSString *const MBBDefaultsKeyLatency                 = @"artificialLaten
 typedef enum {
     MBBConcurrencyMethodProduction   = 0,
     MBBConcurrencyMethodAsynchronous = 1,
-    MBBConcurrencyMethodBatched      = 2,
 } MBBConcurrencyMethod;
 
 @interface MBBOptionsViewController : UITableViewController <UIAlertViewDelegate>

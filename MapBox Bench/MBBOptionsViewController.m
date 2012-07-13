@@ -136,7 +136,7 @@ typedef enum {
         }
         case MBBSectionConcurrencyMethod:
         {
-            return 3;
+            return 2;
         }
         case MBBSectionConcurrencyOptions:
         {
@@ -247,18 +247,9 @@ typedef enum {
                 }
                 case 1:
                 {
-                    cell.textLabel.text = @"Asynchronous";
+                    cell.textLabel.text = @"Asynchronous prefetch";
                     cell.accessoryType  = (concurrencyMethod == MBBConcurrencyMethodAsynchronous ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
 
-                    break;
-                }
-                case 2:
-                {
-                    cell.textLabel.text = @"Batched like MapKit";
-                    cell.accessoryType  = (concurrencyMethod == MBBConcurrencyMethodBatched ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
-
-                    cell.textLabel.textColor = [UIColor lightGrayColor];
-                    
                     break;
                 }
             }

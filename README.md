@@ -10,7 +10,7 @@ On capable devices, choose to either use retina-compatible tiles drawn at actual
 
 ### Concurrency
 
-These are our testbed options for concurrency approaches. For now, choose our regular method or an experimental asynchronous mode. More to come. 
+These are our testbed options for concurrency approaches. For now, choose our regular method or two experimental asynchronous modes. More to come. 
 
 ### Concurrency Options
 
@@ -29,6 +29,10 @@ Consider a tile request for tile `X`. Entering a radius value of `2` will synchr
 #### Max Concurrency
 
 Aside from the normal synchronous tile fetches, how many simultaneous background fetches should be allowed. 
+
+#### Missing Tiles Depth
+
+Combined with asynchronous tile fetches & screen redraws, this option makes use of tiles already cached from up to `x` lower-numbered zoom levels and draws them in the current zoom level while more accurate fetching is taking place. For example, if zoom level 12 is rendering and this option is set to 3, zoom levels 11, 10, and then 9 will be checked for appropriate tiles, which will be cut accordingly and rendered into place temporarily for zoom 12 until native tiles are available. This creates an illusion of faster loading while work is being done. 
 
 ### User Location Services
 

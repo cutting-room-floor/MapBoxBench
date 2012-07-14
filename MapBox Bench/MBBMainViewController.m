@@ -13,6 +13,7 @@
 
 #import "RMMapView.h"
 #import "RMMapBoxSource.h"
+#import "RMTileCache.h"
 
 #import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
@@ -91,6 +92,8 @@
     self.mapView.viewControllerPresentingAttribution = self;
     
     [self.mapView setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight];
+    
+    self.mapView.tileCache = [[RMTileCache alloc] initWithExpiryPeriod:MAXFLOAT];
     
     [self.view addSubview:self.mapView];
     

@@ -14,6 +14,7 @@ static NSString *const MBBDefaultsKeyRetinaEnabled           = @"retinaEnabled";
 static NSString *const MBBDefaultsKeyConcurrencyMethod       = @"concurrencyMethod";
 static NSString *const MBBDefaultsKeyPrefetchTileRadius      = @"prefetchTileRadius";
 static NSString *const MBBDefaultsKeyMaxConcurrentOperations = @"maxConcurrentOperationCount";
+static NSString *const MBBDefaultsKeyMissingTilesDepth       = @"missingTilesDepth";
 static NSString *const MBBDefaultsKeyShowUserLocation        = @"userTrackingEnabled";
 static NSString *const MBBDefaultsKeyCenterUserLocation      = @"centerMapEnabled";
 static NSString *const MBBDefaultsKeyDebugTiles              = @"showTilesEnabled";
@@ -23,10 +24,12 @@ static NSString *const MBBDefaultsKeyLatency                 = @"artificialLaten
 
 #define kDefaultTilePrefetchRadius 1
 #define kDefaultMaxConcurrentOps   6
+#define kDefaultMissingTilesDepth  3
 
 typedef enum {
-    MBBConcurrencyMethodProduction   = 0,
-    MBBConcurrencyMethodAsynchronous = 1,
+    MBBConcurrencyMethodProduction           = 0,
+    MBBConcurrencyMethodAsynchronousPrefetch = 1,
+    MBBConcurrencyMethodAsynchronousRedraw   = 2,
 } MBBConcurrencyMethod;
 
 @interface MBBOptionsViewController : UITableViewController <UIAlertViewDelegate>

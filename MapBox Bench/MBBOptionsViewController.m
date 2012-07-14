@@ -32,10 +32,11 @@ typedef enum {
 } MBBSwitch;
 
 typedef enum {
-    MBBAlertConcurrencyPrefetch = 0,
-    MBBAlertConcurrencyMaxOps   = 1,
-    MBBAlertTileJSON            = 2,
-    MBBAlertLatency             = 3,
+    MBBAlertConcurrencyPrefetch          = 0,
+    MBBAlertConcurrencyMaxOps            = 1,
+    MBBAlertConcurrencyMissingTilesDepth = 2,
+    MBBAlertTileJSON                     = 3,
+    MBBAlertLatency                      = 4,
 } MBBAlert;
 
 @implementation MBBOptionsViewController
@@ -136,11 +137,11 @@ typedef enum {
         }
         case MBBSectionConcurrencyMethod:
         {
-            return 2;
+            return 3;
         }
         case MBBSectionConcurrencyOptions:
         {
-            return 2;
+            return 3;
         }
         case MBBSectionUserLocationServices:
         {
@@ -248,8 +249,15 @@ typedef enum {
                 case 1:
                 {
                     cell.textLabel.text = @"Asynchronous prefetch";
-                    cell.accessoryType  = (concurrencyMethod == MBBConcurrencyMethodAsynchronous ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+                    cell.accessoryType  = (concurrencyMethod == MBBConcurrencyMethodAsynchronousPrefetch ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
 
+                    break;
+                }
+                case 2:
+                {
+                    cell.textLabel.text = @"Asynchronous redraw";
+                    cell.accessoryType = (concurrencyMethod == MBBConcurrencyMethodAsynchronousRedraw ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone);
+                    
                     break;
                 }
             }
@@ -269,6 +277,12 @@ typedef enum {
                 cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
                 
                 cell.textLabel.text = [NSString stringWithFormat:@"Max Concurrency: %i", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMaxConcurrentOperations]];
+            }
+            else if (indexPath.row == 2)
+            {
+                cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+                
+                cell.textLabel.text = [NSString stringWithFormat:@"Missing tiles depth: %i", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMissingTilesDepth]];
             }
             
             break;
@@ -388,7 +402,7 @@ typedef enum {
     if (section == MBBSectionRetina && ! [MBBCommon isRetinaCapable])
         return 0;
 
-    if (section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronous)
+    if (section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronousPrefetch && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronousRedraw)
         return 0;
     
     if (section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit])
@@ -399,8 +413,14 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronous)
-        return 0;
+    if (indexPath.section == MBBSectionConcurrencyOptions)
+    {
+        if (indexPath.row < 2 && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronousPrefetch)
+            return 0;
+        
+        if (indexPath.row == 2 && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronousRedraw)
+            return 0;
+    }
     
     if (indexPath.section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit])
         return 0;
@@ -460,6 +480,23 @@ typedef enum {
                 
                 if ([[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMaxConcurrentOperations])
                     [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMaxConcurrentOperations]];
+                
+                [alert show];
+            }
+            else if (indexPath.row == 2)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Missing Tiles Depth"
+                                                                message:@"Enter a number of zoom levels or just select the default:"
+                                                               delegate:self
+                                                      cancelButtonTitle:[NSString stringWithFormat:@"Use Default (%i)", kDefaultMissingTilesDepth]
+                                                      otherButtonTitles:@"Use Entered", nil];
+                
+                alert.tag = MBBAlertConcurrencyMissingTilesDepth;
+                
+                alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+                
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMissingTilesDepth])
+                    [alert textFieldAtIndex:0].text = [NSString stringWithFormat:@"%i", [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMissingTilesDepth]];
                 
                 [alert show];
             }
@@ -552,6 +589,23 @@ typedef enum {
         else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [[alertView textFieldAtIndex:0].text integerValue])
         {
             [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:MBBDefaultsKeyMaxConcurrentOperations];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }
+    else if (alertView.tag == MBBAlertConcurrencyMissingTilesDepth)
+    {
+        if (buttonIndex == 0 && [[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMissingTilesDepth])
+        {
+            [[NSUserDefaults standardUserDefaults] setInteger:kDefaultMissingTilesDepth forKey:MBBDefaultsKeyMissingTilesDepth];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else if (buttonIndex == 1 && [[alertView textFieldAtIndex:0].text length] && [[alertView textFieldAtIndex:0].text integerValue])
+        {
+            [[NSUserDefaults standardUserDefaults] setInteger:[[alertView textFieldAtIndex:0].text integerValue] forKey:MBBDefaultsKeyMissingTilesDepth];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:MBBSectionConcurrencyOptions] withRowAnimation:UITableViewRowAnimationFade];

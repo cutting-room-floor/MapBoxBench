@@ -203,10 +203,13 @@
                                                         
         self.mapView.debugTiles                  =   [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyDebugTiles];
         
-        self.mapView.loadAsynchronously          = ([[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] == MBBConcurrencyMethodAsynchronous);
+        self.mapView.loadAsynchronouslyPrefetch  = ([[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] == MBBConcurrencyMethodAsynchronousPrefetch);
         self.mapView.prefetchTileRadius          = [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyPrefetchTileRadius];
         self.mapView.maxConcurrentOperationCount = [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMaxConcurrentOperations];
         self.mapView.artificialLatency           = [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyLatency];
+        
+        self.mapView.loadAsynchronouslyRedraw    = ([[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] == MBBConcurrencyMethodAsynchronousRedraw);
+        self.mapView.missingTilesDepth           = ([[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMissingTilesDepth] ? [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMissingTilesDepth] : kDefaultMissingTilesDepth);
         
         [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
         

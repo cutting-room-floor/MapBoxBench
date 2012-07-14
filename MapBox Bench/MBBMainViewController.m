@@ -224,6 +224,9 @@
                 
                 mapKitMapView.region = MKCoordinateRegionMake(self.mapView.centerCoordinate, MKCoordinateSpanMake(fabs(topRight.latitude - bottomLeft.latitude), fabs(topRight.longitude - bottomLeft.longitude)));
                 
+                mapKitMapView.showsUserLocation = [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowUserLocation];
+                mapKitMapView.userTrackingMode  = ([[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyCenterUserLocation] ? MKUserTrackingModeFollow : MKUserTrackingModeNone);
+                
                 [self.view addSubview:mapKitMapView];
             }
 

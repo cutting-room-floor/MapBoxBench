@@ -405,7 +405,7 @@ typedef enum {
     if (section == MBBSectionConcurrencyOptions && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronousPrefetch && [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] != MBBConcurrencyMethodAsynchronousRedraw)
         return 0;
     
-    if (section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit])
+    if (section != MBBSectionMapKit && section != MBBSectionUserLocationServices && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit])
         return 0;
     
     return [tableView sectionHeaderHeight];
@@ -422,7 +422,7 @@ typedef enum {
             return 0;
     }
     
-    if (indexPath.section != MBBSectionMapKit && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit])
+    if (indexPath.section != MBBSectionMapKit && indexPath.section != MBBSectionUserLocationServices && [[NSUserDefaults standardUserDefaults] boolForKey:MBBDefaultsKeyShowMapKit])
         return 0;
     
     return [tableView rowHeight];

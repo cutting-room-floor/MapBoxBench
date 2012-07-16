@@ -56,4 +56,4 @@ Temporarily hide SDK functionality to see how Apple's MapKit shows the current v
 
 Introduce an artificial delay in tile loads to simulate various network conditions. 
 
-!{](https://raw.github.com/mapbox/MapBoxBench/master/screenshot.png)
+![](https://raw.github.com/mapbox/MapBoxBench/master/screenshot.png)

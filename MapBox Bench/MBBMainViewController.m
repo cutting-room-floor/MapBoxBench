@@ -14,6 +14,7 @@
 #import "RMMapView.h"
 #import "RMMapBoxSource.h"
 #import "RMTileCache.h"
+#import "RMDatabaseCache.h"
 
 #import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
@@ -63,6 +64,7 @@
 
 @implementation MBBMainViewController
 {
+    UILabel *cacheCountLabel;
     UILabel *operationCountLabel;
     NSTimer *operationLabelTimer;
 }
@@ -105,8 +107,9 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Options" style:UIBarButtonItemStyleBordered target:self action:@selector(showOptions:)];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsDidChange:) name:NSUserDefaultsDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMap:)         name:MBBOptionsDismissedNotification     object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(defaultsDidChange:) name:NSUserDefaultsDidChangeNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadMap:)         name:MBBOptionsDismissedNotification      object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateCacheLabel:)  name:RMDatabaseCacheTileCountNotification object:nil];
     
     UIButton *helpButton = [[UIButton alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - 40, 40, 40)];
     
@@ -119,7 +122,7 @@
     
     [self.view addSubview: helpButton];
     
-    operationCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
+    operationCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 30)];
     
     operationCountLabel.textColor = [UIColor blackColor];
     operationCountLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
@@ -130,8 +133,7 @@
     
     operationLabelTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(updateOperationCount:) userInfo:nil repeats:YES];
     
-    
-    cacheCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 50, 30)];
+    cacheCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 200, 30)];
 
     cacheCountLabel.textColor = [UIColor blackColor];
     cacheCountLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
@@ -166,8 +168,9 @@
 {
     [operationLabelTimer invalidate];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:MBBOptionsDismissedNotification     object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MBBOptionsDismissedNotification      object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:RMDatabaseCacheTileCountNotification object:nil];
 }
 
 #pragma mark -
@@ -184,7 +187,7 @@
     
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:(activeCount > 0)];
     
-    operationCountLabel.text = [NSString stringWithFormat:@" %i / %i ", activeCount, totalCount];
+    operationCountLabel.text = [NSString stringWithFormat:@" %i fetching / %i pending ", activeCount, totalCount];
 }
 
 - (void)defaultsDidChange:(NSNotification *)notification
@@ -269,6 +272,11 @@
             self.mapView.hidden = NO;
         }
     }
+}
+
+- (void)updateCacheLabel:(NSNotification *)notification
+{
+    cacheCountLabel.text = [NSString stringWithFormat:@" %i tiles cached ", [[notification object] integerValue]];
 }
 
 - (void)showOptions:(id)sender

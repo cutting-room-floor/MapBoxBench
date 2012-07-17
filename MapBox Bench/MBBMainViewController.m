@@ -130,11 +130,24 @@
     
     operationLabelTimer = [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(updateOperationCount:) userInfo:nil repeats:YES];
     
+    
+    cacheCountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 50, 30)];
+
+    cacheCountLabel.textColor = [UIColor blackColor];
+    cacheCountLabel.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.25];
+    
+    cacheCountLabel.adjustsFontSizeToFitWidth = YES;
+    
+    [self.view addSubview:cacheCountLabel];
+    
     if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyPrefetchTileRadius])
         [[NSUserDefaults standardUserDefaults] setInteger:kDefaultTilePrefetchRadius forKey:MBBDefaultsKeyPrefetchTileRadius];
 
     if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMaxConcurrentOperations])
         [[NSUserDefaults standardUserDefaults] setInteger:kDefaultMaxConcurrentOps   forKey:MBBDefaultsKeyMaxConcurrentOperations];
+
+    if ( ! [[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMissingTilesDepth])
+        [[NSUserDefaults standardUserDefaults] setInteger:kDefaultMissingTilesDepth  forKey:MBBDefaultsKeyMissingTilesDepth];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
     

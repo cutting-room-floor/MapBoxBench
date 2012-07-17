@@ -225,7 +225,7 @@
         self.mapView.artificialLatency           = [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyLatency];
         
         self.mapView.loadAsynchronouslyRedraw    = ([[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] == MBBConcurrencyMethodAsynchronousRedraw);
-        self.mapView.missingTilesDepth           = ([[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMissingTilesDepth] ? [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMissingTilesDepth] : kDefaultMissingTilesDepth);
+        self.mapView.missingTilesDepth           = ([[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyConcurrencyMethod] == MBBConcurrencyMethodAsynchronousRedraw ? ([[NSUserDefaults standardUserDefaults] objectForKey:MBBDefaultsKeyMissingTilesDepth] ? [[NSUserDefaults standardUserDefaults] integerForKey:MBBDefaultsKeyMissingTilesDepth] : kDefaultMissingTilesDepth) : 0);
         
         [self.mapView performSelector:@selector(emptyCacheAndForceRefresh) withObject:nil afterDelay:0];
         

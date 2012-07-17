@@ -24,7 +24,7 @@ static NSString *const MBBDefaultsKeyLatency                 = @"artificialLaten
 
 #define kDefaultTilePrefetchRadius 1
 #define kDefaultMaxConcurrentOps   6
-#define kDefaultMissingTilesDepth  3
+#define kDefaultMissingTilesDepth  1
 
 typedef enum {
     MBBConcurrencyMethodProduction           = 0,

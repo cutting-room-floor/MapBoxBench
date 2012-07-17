@@ -81,7 +81,7 @@
     
     self.mapView.zoom = 2;
     
-    self.mapView.backgroundColor = [UIColor darkGrayColor];
+    self.mapView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loading.png"]];
     
     self.mapView.decelerationMode = RMMapDecelerationFast;
     

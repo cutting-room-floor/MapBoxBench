@@ -85,11 +85,7 @@
     
     self.mapView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"loading.png"]];
     
-    self.mapView.decelerationMode = RMMapDecelerationFast;
-    
     self.mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    
-    self.mapView.boundingMask = RMMapMinWidthBound;
     
     self.mapView.viewControllerPresentingAttribution = self;
     

@@ -12,6 +12,9 @@ On capable devices, choose to either use retina-compatible tiles drawn at actual
 
 These are our testbed options for concurrency approaches. For now, choose our regular method or two experimental asynchronous modes. More to come. 
 
+ * *Asynchronous prefetch* takes a given (synchronous) tile request and before serving it, fires off several asynchronous network fetches of surrounding tiles straight to cache, if not already present. See *Prefetch Radius* and *Max Concurrency* options below. 
+ * *Asynchronous redraw* takes a given (synchronous) tile request, fires off an asynchronous network fetch, along with a completion callback to refresh the entire map render redraw (since this can't be done on a per-tile basis), then returns an empty tile. When the network fetch completes, the tile is saved to cache, the redraw is requested, and one of two things happens. If a needed tile is in the cache, it is then drawn to screen. If not, another fetch is made for it, by which time the tile may now exist in cache (due to previous requests) or it will get queued up. This also relies on the mostly-unrelated *Missing Tiles Depth* option in standard Alpstein to give more of an illusion of tile loading speed. 
+
 ### Concurrency Options
 
 If using the experimental modes, configure them here. Note that certain combinations can currently deadlock the application. 
